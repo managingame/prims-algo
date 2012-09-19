@@ -21,6 +21,13 @@ public class Node {
 		this.name = name;
 	}
 	
+	public Node(BigDecimal pointX, BigDecimal pointY) {
+		super();
+		this.pointX = pointX;
+		this.pointY = pointY;
+		this.name = "";
+	}
+	
 	public BigDecimal getPointX() {
 		return pointX;
 	}
@@ -67,7 +74,11 @@ public class Node {
 			return false;
 		return true;
 	}
-	
-	
 
+	@Override
+	public String toString() {
+		return "Node [pointX=" + pointX + ", pointY=" + pointY + ", name="
+				+ name + "]";
+	}
+	
 }
