@@ -15,19 +15,19 @@ import lt.refactory.primsAlgo.graph.exception.RemoveNodeException;
  * @author arminas
  *
  */
-public class Graph {
+public class Graph<T extends Edge> {
 	Map<String,Node> nodeList;
-	Map<String,Edge> edgeList;
+	Map<String,T> edgeList;
 	
 	public List<Node> getNodeList() {
  		return new ArrayList<Node>(nodeList.values());
 	}
-	public List<Edge> getEdgeList() {
-		return new ArrayList<Edge>(edgeList.values());
+	public List<T> getEdgeList() {
+		return new ArrayList<T>(edgeList.values());
 	}
 	
 	public void addNode(Node node) throws AddNodeException {
-
+		throw new UnsupportedOperationException ();	
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class Graph {
 	 * @param name name of the node to remove
 	 */
 	public void removeNode(String name) throws RemoveNodeException{
-		
+		throw new UnsupportedOperationException ();		
 	}
 	/**
 	 * Adds new edge to graph. You can't add new edge when:
@@ -55,16 +55,12 @@ public class Graph {
 	 * <li>Edge has no name</li>
 	 * @param edge
 	 */
-	public void addEdge(Edge edge) throws AddEdgeException {
-		
+	public void addEdge(T edge) throws AddEdgeException {
+		throw new UnsupportedOperationException ();	
 	}
 	
-	public void removeEdge(Edge edge) {
-		
-	}
-	
-	public void removeEdge(String edgeName){
-		
+	public void removeEdge(T edge) {
+		throw new UnsupportedOperationException ();	
 	}
 	
 	
@@ -76,11 +72,11 @@ public class Graph {
 		return null;
 	}
 	
-	public boolean containsEdge(Edge edge){
+	public boolean containsEdge(T edge){
 		return false;
 	}
 	
-	public boolean containsNode(Node node){
+	public boolean containsNode(T node){
 		return false;
 	}
 	

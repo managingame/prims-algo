@@ -4,7 +4,7 @@ package lt.refactory.primsAlgo.graph;
  * @author arminas
  *
  */
-public abstract class Edge {
+public class Edge {
 	private Node start;
 	private Node end;
 	
