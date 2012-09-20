@@ -7,10 +7,14 @@ import java.math.BigDecimal;
  * @author arminas
  *
  */
+enum NodeType{
+	NORMAL,STEINER
+}
 public class Node {
-	private BigDecimal pointX;
-	private BigDecimal pointY;
-	private String name;
+	private final BigDecimal pointX;
+	private final BigDecimal pointY;
+	private final String name;
+	private final NodeType nodeType;
 	
 	
 	
@@ -19,6 +23,7 @@ public class Node {
 		this.pointX = pointX;
 		this.pointY = pointY;
 		this.name = name;
+		this.nodeType = NodeType.NORMAL;
 	}
 	
 	public Node(BigDecimal pointX, BigDecimal pointY) {
@@ -26,6 +31,7 @@ public class Node {
 		this.pointX = pointX;
 		this.pointY = pointY;
 		this.name = "";
+		this.nodeType = NodeType.NORMAL;
 	}
 	
 	public BigDecimal getPointX() {
@@ -37,6 +43,9 @@ public class Node {
 	public String getName() {
 		return name;
 	}
+	public NodeType getNodeType() {
+		return nodeType;
+	}	
 
 	@Override
 	public int hashCode() {
@@ -80,5 +89,6 @@ public class Node {
 		return "Node [pointX=" + pointX + ", pointY=" + pointY + ", name="
 				+ name + "]";
 	}
+
 	
 }
