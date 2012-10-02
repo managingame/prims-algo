@@ -1,8 +1,10 @@
 package lt.refactory.primsAlgo.graph;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 
 import lt.refactory.primsAlgo.graph.exception.AddEdgeException;
@@ -16,68 +18,83 @@ import lt.refactory.primsAlgo.graph.exception.RemoveNodeException;
  *
  */
 public class Graph<T extends Edge> {
-	Map<String,Node> nodeList;
-	Map<String,T> edgeList;
+	Set<Node> nodeList;
+	Set<T> edgeList;
 	
 	public List<Node> getNodeList() {
- 		return new ArrayList<Node>(nodeList.values());
+ 		return new ArrayList<Node>(nodeList);
 	}
 	public List<T> getEdgeList() {
-		return new ArrayList<T>(edgeList.values());
+		return new ArrayList<T>(edgeList);
 	}
 	
 	public void addNode(Node node) throws AddNodeException {
-		throw new UnsupportedOperationException ();	
+		nodeList.add(node);
 	}
 	
 	/**
-	 * Removes node with given name from a graph.
+	 * Removes node from a graph.
 	 * You can't remove node when:
 	 * <li>Node has edges</li>
 	 * @param name name of the node to remove
 	 */
-	public void removeNode(Node node) throws RemoveNodeException{
-		throw new UnsupportedOperationException ();
+	public void removeNode(Node node) throws RemoveNodeException {
+		for (T edge : edgeList) {
+			if (edge.getStart().equals(node) || edge.getEnd().equals(node)) {
+				throw new RemoveNodeException("Node has edges");
+			}
+		}
+		nodeList.remove(node);
 	}
+		
 	
-	/**
-	 * Removes node with given name from a graph.
-	 * You can't remove node when:
-	 * <li>Node has edges</li>
-	 * @param name name of the node to remove
-	 */
-	public void removeNode(String name) throws RemoveNodeException{
-		throw new UnsupportedOperationException ();		
-	}
 	/**
 	 * Adds new edge to graph. You can't add new edge when:
 	 * <li>Edge start or end points does not exist in graph</li>
-	 * <li>Edge has no name</li>
 	 * @param edge
 	 */
 	public void addEdge(T edge) throws AddEdgeException {
-		throw new UnsupportedOperationException ();	
+		if (!nodeList.contains(edge.getStart()) || !nodeList.contains(edge.getEnd())){
+			throw new AddEdgeException("Nodes at start or end of the edge does not exist");
+		}
+		edgeList.add(edge);
 	}
 	
 	public void removeEdge(T edge) {
-		throw new UnsupportedOperationException ();	
+		edgeList.remove(edge);
 	}
 	
-	
-	public Node getNode(String name){
-		return null;
-	}
-	
-	public Edge getEdge(String name){
-		return null;
-	}
 	
 	public boolean containsEdge(T edge){
-		return false;
+		return edgeList.contains(edge);
 	}
 	
-	public boolean containsNode(T node){
-		return false;
+	public boolean containsNode(Node node){
+		return nodeList.contains(node);
+	}
+	
+	public List<T> getNodeEdges(Node node) {
+		if (!nodeList.contains(node)) {
+			return Collections.emptyList();
+		}
+		Set<T> resultList = new HashSet<T>();
+		for (T edge : edgeList) {
+			if (edge.getStart().equals(node) || edge.getEnd().equals(node)) {
+				resultList.add(edge);
+			}
+		}
+		return new ArrayList<T>(resultList);
+	}
+	
+	public List<T> getNearEdges(T edge){
+		List<T> firstNodeNearEdgeList = getNodeEdges(edge.getStart());
+		List<T> secondNodeNearEdgeList = getNodeEdges(edge.getEnd());
+
+		Set<T> result = new HashSet<T>();
+		result.addAll(firstNodeNearEdgeList);
+		result.addAll(secondNodeNearEdgeList);
+		return new ArrayList<T>(result);
+		
 	}
 	
 	
