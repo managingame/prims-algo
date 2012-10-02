@@ -7,7 +7,9 @@ import lt.refactory.primsAlgo.service.algorithm.SteinersAlgorithm;
 
 public class PrimsAlgoService {
 	
+	@SuppressWarnings("unused")
 	private PrimsAlgorithm primsAlgorithm;
+	@SuppressWarnings("unused")
 	private SteinersAlgorithm steinersAlgorithm;
 	
 	public PrimsAlgoService(){
