@@ -51,7 +51,6 @@ public class Node {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((pointX == null) ? 0 : pointX.hashCode());
 		result = prime * result + ((pointY == null) ? 0 : pointY.hashCode());
 		return result;
@@ -66,11 +65,6 @@ public class Node {
 		if (!(obj instanceof Node))
 			return false;
 		Node other = (Node) obj;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
 		if (pointX == null) {
 			if (other.pointX != null)
 				return false;
@@ -83,6 +77,7 @@ public class Node {
 			return false;
 		return true;
 	}
+	
 
 	@Override
 	public String toString() {
