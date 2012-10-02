@@ -73,7 +73,7 @@ public class Graph<T extends Edge> {
 		return nodeList.contains(node);
 	}
 	
-	public List<T> getNodeEdges(Node node) {
+	public List<T> getNearEdges(Node node) {
 		if (!nodeList.contains(node)) {
 			return Collections.emptyList();
 		}
@@ -87,14 +87,32 @@ public class Graph<T extends Edge> {
 	}
 	
 	public List<T> getNearEdges(T edge){
-		List<T> firstNodeNearEdgeList = getNodeEdges(edge.getStart());
-		List<T> secondNodeNearEdgeList = getNodeEdges(edge.getEnd());
+		List<T> firstNodeNearEdgeList = getNearEdges(edge.getStart());
+		List<T> secondNodeNearEdgeList = getNearEdges(edge.getEnd());
 
 		Set<T> result = new HashSet<T>();
 		result.addAll(firstNodeNearEdgeList);
 		result.addAll(secondNodeNearEdgeList);
 		return new ArrayList<T>(result);
 		
+	}
+	
+	public List<Node> getNearNodes(Node node){
+		Set<Node> result = new HashSet<Node>();
+		for (T nearEdge: getNearEdges(node)){
+			result.add(nearEdge.getStart());
+			result.add(nearEdge.getEnd());
+		}
+		
+		return new ArrayList<Node>(result);
+	}
+	
+	public int getNodeListSize(){
+		return nodeList.size();
+	}
+	
+	public int getEdgeListSize(){
+		return edgeList.size();
 	}
 	
 	
