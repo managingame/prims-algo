@@ -21,6 +21,10 @@ public class Graph<T extends Edge> {
 	Set<Node> nodeList;
 	Set<T> edgeList;
 	
+	public Graph(){
+		this.nodeList = new HashSet<Node>();
+		this.edgeList = new HashSet<T>();
+	}
 	public List<Node> getNodeList() {
  		return new ArrayList<Node>(nodeList);
 	}
