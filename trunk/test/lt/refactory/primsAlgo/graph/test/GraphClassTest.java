@@ -169,7 +169,7 @@ public class GraphClassTest {
 		graph.addEdge(sixthEdge);
 		
 		List<Edge> edgeList = graph.getEdgeList();
-		assertTrue(edgeList.size()==5);
+		assertTrue(edgeList.size()==4);
 		
 		// Ok we got first error 
 		// fifthEdge(starts at [2;3]ends at[2;1])and sixthEdge(starts at[2;1]ends at[2;3])
@@ -244,7 +244,7 @@ public class GraphClassTest {
 		
 		// Second error appears here from point which was connected with 2 nodes ,
 		// amount of near Nodes is 3 .should be 2  if he include himself then it is ok.
-		assertTrue(nearNodesList.size()==3);
+		assertTrue(nearNodesList.size()==2);
 	}
 
 }
