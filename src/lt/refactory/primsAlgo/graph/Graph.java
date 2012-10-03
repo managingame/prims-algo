@@ -108,6 +108,9 @@ public class Graph<T extends Edge> {
 			result.add(nearEdge.getEnd());
 		}
 		
+		//remove the node itself
+		result.remove(node);
+		
 		return new ArrayList<Node>(result);
 	}
 	
