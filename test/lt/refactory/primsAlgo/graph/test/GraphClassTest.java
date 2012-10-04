@@ -7,16 +7,7 @@ import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Random;
-import java.util.Set;
-import java.util.SortedSet;
-
 import lt.refactory.primsAlgo.graph.Edge;
 import lt.refactory.primsAlgo.graph.Graph;
 import lt.refactory.primsAlgo.graph.Node;
@@ -25,7 +16,6 @@ import lt.refactory.primsAlgo.graph.exception.AddNodeException;
 import lt.refactory.primsAlgo.graph.exception.RemoveNodeException;
 
 import org.junit.Test;
-import org.w3c.dom.NodeList;
 
 /**
  * @author Arminas
@@ -114,23 +104,32 @@ public class GraphClassTest {
 		
 		Graph<Edge> graph = new Graph<>();
 		List <Edge> correctGraph = new ArrayList<>();
+		correctGraph.clear();
+		for (int h=0; h < nodeList.size(); h++ ){
+			graph.addNode(nodeList.get(h));
+		}
+		System.out.println(graph.getNodeListSize());
+		System.out.println(edgeList.size()+"]\n");
 		System.out.println(edgeList.toString());
 		for(int i=0; i< edgeList.size(); i++){
 			graph.addEdge(edgeList.get(i));
 			
-			
-			if(!correctGraph.contains(edgeList.get(i))){
+			System.out.println("\n"+i);
+			if(correctGraph.contains(edgeList.get(i))){
+				System.out.println("Grafas jau kontainina briauna"+edgeList.get(i).toString());
+				
+			}else{
 				correctGraph.add(edgeList.get(i));
 			}
 			
 		}
 		
 		List<Edge> edgeList = graph.getEdgeList();
+		System.out.println(edgeList.size()+"vs"+correctGraph.size());
 		assertTrue(edgeList.size()==correctGraph.size());
 		
-		// Ok we got first error 
-		// fifthEdge(starts at [2;3]ends at[2;1])and sixthEdge(starts at[2;1]ends at[2;3])
-		// are different edges and both were put into graph  
+		// Error : addEdge method adds all edges no matter where they are
+		
 		
 	}
 
@@ -165,43 +164,17 @@ public class GraphClassTest {
 	 */
 	@Test
 	public void testGetNearNodes() throws AddNodeException, AddEdgeException {
-		BigDecimal bigNumber1 = new BigDecimal(1.0);
-		BigDecimal bigNumber2 = new BigDecimal(2.0);
-		BigDecimal bigNumber3 = new BigDecimal(3.0);
-		BigDecimal bigNumber4 = new BigDecimal(3.0);
-		BigDecimal bigNumber5 = new BigDecimal(-4.0);
-		BigDecimal bigNumber6 = new BigDecimal(4.0);
+		fail("Someday it will be implemented");
+	}
+	
+	@Test
+	public void testEdgeHashCodeAndEquals(){
 		
+		Edge edge1 = edgeList.get(3);
+		Edge edge2 = edgeList.get(4);
 		
-		Node point_1 = new Node(bigNumber6, bigNumber1);
-		Node point_2 = new Node(bigNumber5, bigNumber6);
-		Node point_3 = new Node(bigNumber2, bigNumber3);
-		Node point_4 = new Node(bigNumber2, bigNumber1);
-		Node point_5 = new Node(bigNumber2, bigNumber1);
-		
-		Graph<Edge> graph = new Graph<Edge>();
-		Edge firstEdge = new Edge(point_1, point_3);
-		Edge thirdEdge = new Edge(point_2, point_3);
-		Edge secondEdge = new Edge(point_1, point_4);	
-		Edge fourthEdge = new Edge(point_3,point_4);
-		
-		graph.addNode(point_5);
-		graph.addNode(point_4);
-		graph.addNode(point_3);
-		graph.addNode(point_2);
-		graph.addNode(point_1);
-
-		graph.addEdge(firstEdge);
-		graph.addEdge(secondEdge);
-		graph.addEdge(thirdEdge);
-		graph.addEdge(fourthEdge);
-		
-		// Searching for nearNodes for point which goes as argument in the method
-		List<Node> nearNodesList = graph.getNearNodes(point_4);
-		
-		// Second error appears here from point which was connected with 2 nodes ,
-		// amount of near Nodes is 3 .should be 2  if he include himself then it is ok.
-		assertTrue(nearNodesList.size()==2);
+		assertTrue(edge1.equals(edge2));
+		assertTrue(edge1.hashCode() == edge2.hashCode());
 	}
 
 }
