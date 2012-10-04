@@ -6,7 +6,16 @@ package lt.refactory.primsAlgo.graph.test;
 import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Random;
+import java.util.Set;
+import java.util.SortedSet;
 
 import lt.refactory.primsAlgo.graph.Edge;
 import lt.refactory.primsAlgo.graph.Graph;
@@ -16,75 +25,55 @@ import lt.refactory.primsAlgo.graph.exception.AddNodeException;
 import lt.refactory.primsAlgo.graph.exception.RemoveNodeException;
 
 import org.junit.Test;
+import org.w3c.dom.NodeList;
 
 /**
  * @author Arminas
  * @Tester Egidijus
  */
 public class GraphClassTest {
-
+	static List<Node> nodeList ;
+	static List<Edge> edgeList ;
+	
+	static{
+		nodeList = TestObjectsFactory.nodesFactory();
+		edgeList = TestObjectsFactory.edgeFactory();		
+	}
 	/**
 	 * Test method for {@link lt.refactory.primsAlgo.graph.Graph#addNode(lt.refactory.primsAlgo.graph.Node)}.
 	 * @throws AddNodeException 
 	 */
 	@Test
 	public void testAddNode() throws AddNodeException {
-		BigDecimal bigNumber1 = new BigDecimal(1.0);
-		BigDecimal bigNumber2 = new BigDecimal(2.0);
-		BigDecimal bigNumber3 = new BigDecimal(3.0);
-		BigDecimal bigNumber4 = new BigDecimal(3.0);
-		BigDecimal bigNumber5 = new BigDecimal(-4.0);
-		BigDecimal bigNumber6 = new BigDecimal(4.0);
+		Graph<Edge> graph = new Graph<>();
+		List<Node> correctGraphList = new ArrayList<>();
+		
+		// putting nodes into graph and into correctGraph 
+		// If Both of them will have same amount of nodes , test
+		// will be approved
+		
+		for(int i=0; i < nodeList.size(); i++){
+			graph.addNode(nodeList.get(i));
+			
+			if(!correctGraphList.contains(nodeList.get(i))){
+				correctGraphList.add(nodeList.get(i));
+			}	
+		}
 		
 		
-		//Adding multiplier for fun mathematics 
-		BigDecimal multiplier = new BigDecimal(1.11111);
-		//Big decimal is much more better than double or float.
-		
-		Graph<Edge> graph = new Graph<Edge>();
-		
-		// creating points
-		// Tried to multiply number with 1.11111 in order to create diference numbers .
-		// Didn't worked
-		Node point_1 = new Node((bigNumber1.add(bigNumber3).multiply(multiplier)), bigNumber2);
-		Node point_11 = new Node((bigNumber1.add(bigNumber3).multiply(multiplier)), bigNumber2);
-		
-		// two objects with same value but different reference 
-		Node point_2 = new Node(bigNumber3, bigNumber3);
-		Node point_3 = new Node(bigNumber4, bigNumber4);
-		
-		// Adding 2 points : 1 is |-4;-4| and second is |4;4| 
-		// in addition both of them are equal and set  
-		Node point_4 = new Node(bigNumber5.abs(), bigNumber5.abs());
-		Node point_5 = new Node(bigNumber6, bigNumber6);
-		
-		// adding points to graph
-		graph.addNode(point_1);
-		graph.addNode(point_2);
-		
-		// different obj with same value
-		graph.addNode(point_3);
-		graph.addNode(point_11);
-		
-		//  
-		graph.addNode(point_5);
-		graph.addNode(point_4);
-		
-		
-		List<Node> nodeList = graph.getNodeList();
-		
-		assertTrue(nodeList.contains(point_1));
-		
-		// both of them are working fine which means they are taking values instead of references
-		// I so hate C++ for that ...
-		assertTrue(nodeList.contains(point_5));
-		assertTrue(nodeList.contains(point_4));
-		assertNotSame(bigNumber3, bigNumber4);
+		// nodeList listed below is this method object not static one.
+		List<Node> nodeList = graph.getNodeList();           
+		assertTrue(nodeList.size()==correctGraphList.size());
+		assertTrue(graph.containsNode(GraphClassTest.nodeList.get(0)));
+		assertTrue(graph.containsNode(GraphClassTest.nodeList.get(1)));
+		assertTrue(graph.containsNode(GraphClassTest.nodeList.get(2)));
+		assertTrue(graph.containsNode(GraphClassTest.nodeList.get(3)));
+		assertTrue(graph.containsNode(GraphClassTest.nodeList.get(4)));
+		assertTrue(graph.containsNode(GraphClassTest.nodeList.get(5)));
+		assertTrue(graph.containsNode(GraphClassTest.nodeList.get(6)));
+		assertTrue(graph.containsNode(GraphClassTest.nodeList.get(7)));
+	    // Passed the test : method addNode works properly.
 		 
-		assertTrue(nodeList.size() == 3); 
-		
-		// Conclusions : addNode method works fine for now.
-		
 	}
 
 	/**
@@ -93,29 +82,26 @@ public class GraphClassTest {
 	 * @throws RemoveNodeException 
 	 */
 	@Test
+	
 	public void testRemoveNode() throws AddNodeException, RemoveNodeException {
-		BigDecimal bigNumber1 = new BigDecimal(1.0);
-		BigDecimal bigNumber2 = new BigDecimal(2.0);
-		BigDecimal bigNumber3 = new BigDecimal(3.0);
-		Graph<Edge> graph = new Graph<Edge>();
+		Graph<Edge> graph = new Graph<>();
+		List<Node> correctGraph = new ArrayList<>();
 		
-		Node firstPoint  = new Node(bigNumber1, bigNumber3);
-		Node secondPoint = new Node(bigNumber2, bigNumber1);
-		Node thirdPoint = new Node(bigNumber1, bigNumber3);
+		for(int i=0; i < nodeList.size();i++){
+			graph.addNode(nodeList.get(i));
+			if (!correctGraph.contains(nodeList.get(i))){
+				correctGraph.add(nodeList.get(i));
+			}
+			
+		}
 		
-		graph.addNode(firstPoint);
-		graph.addNode(secondPoint);
-		graph.addNode(thirdPoint);
+		graph.removeNode(nodeList.get(0));
+		correctGraph.remove(0);
 		
-		graph.removeNode(secondPoint);
-		graph.removeNode(firstPoint);
-		List<Node> pointsList = graph.getNodeList();
-		assertTrue(pointsList.size()==0);
-		assertNotNull(graph);
-		assertNotSame(firstPoint, thirdPoint);
 
-		
-		
+		assertFalse(graph.containsNode(nodeList.get(0)));
+		assertFalse(correctGraph.contains(nodeList.get(0)));
+	
 	}
 
 	/**
@@ -126,50 +112,21 @@ public class GraphClassTest {
 	@Test
 	public void testAddEdge() throws AddEdgeException, AddNodeException {
 		
-		BigDecimal bigNumber1 = new BigDecimal(1.0);
-		BigDecimal bigNumber2 = new BigDecimal(2.0);
-		BigDecimal bigNumber3 = new BigDecimal(3.0);
-		BigDecimal bigNumber4 = new BigDecimal(3.0);
-		BigDecimal bigNumber5 = new BigDecimal(-4.0);
-		BigDecimal bigNumber6 = new BigDecimal(4.0);
-		
-		
-		Node point_1 = new Node(bigNumber6, bigNumber1);
-		Node point_2 = new Node(bigNumber5, bigNumber6);
-		Node point_3 = new Node(bigNumber2, bigNumber3);
-		Node point_4 = new Node(bigNumber2, bigNumber1);
-		Node point_5 = new Node(bigNumber2, bigNumber1);
-		
-		Graph<Edge> graph = new Graph<Edge>();
-		Edge firstEdge = new Edge(point_1, point_3);
-		Edge fourthEdge = new Edge(point_2, point_3);
-		
-		// Edges listed below comment are same 
-		Edge secondEdge = new Edge(point_1, point_4);
-		Edge thirdEdge = new Edge(point_1, point_5);
-		
-		// Edges listed below comment are same
-		// Thats why i am reversing order of start point and end point on one of edge
-		Edge fifthEdge = new Edge(point_3,point_4);
-		Edge sixthEdge = new Edge(point_5,point_3);
-		
-		graph.addNode(point_1);
-		graph.addNode(point_2);
-		graph.addNode(point_3);
-		graph.addNode(point_4);
-		graph.addNode(point_5);
-		
-		graph.addEdge(firstEdge);
-		graph.addEdge(secondEdge);
-		graph.addEdge(thirdEdge);
-		graph.addEdge(fourthEdge);
-		
-		 
-		graph.addEdge(fifthEdge);
-		graph.addEdge(sixthEdge);
+		Graph<Edge> graph = new Graph<>();
+		List <Edge> correctGraph = new ArrayList<>();
+		System.out.println(edgeList.toString());
+		for(int i=0; i< edgeList.size(); i++){
+			graph.addEdge(edgeList.get(i));
+			
+			
+			if(!correctGraph.contains(edgeList.get(i))){
+				correctGraph.add(edgeList.get(i));
+			}
+			
+		}
 		
 		List<Edge> edgeList = graph.getEdgeList();
-		assertTrue(edgeList.size()==4);
+		assertTrue(edgeList.size()==correctGraph.size());
 		
 		// Ok we got first error 
 		// fifthEdge(starts at [2;3]ends at[2;1])and sixthEdge(starts at[2;1]ends at[2;3])
