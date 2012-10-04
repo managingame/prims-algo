@@ -3,6 +3,7 @@ package lt.refactory.primsAlgo.graph;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,9 +23,33 @@ public class Graph<T extends Edge> {
 	Set<T> edgeList;
 	
 	public Graph(){
-		this.nodeList = new HashSet<Node>();
-		this.edgeList = new HashSet<T>();
+		this.nodeList = new LinkedHashSet<Node>();
+		this.edgeList = new LinkedHashSet<T>();
 	}
+	
+	public Graph(Graph<T> graph){
+		this.nodeList = new LinkedHashSet<Node>(graph.nodeList);
+		this.edgeList = new LinkedHashSet<T>(graph.edgeList);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T extends Edge> Graph<T> fullGraphFactory(List<Node> nodeList){
+		Graph<T> result = new Graph<T>();
+		for (int i = 0; i < nodeList.size(); i++){
+			for (int j = 0; j < nodeList.size(); j++){
+				Node firstNode = nodeList.get(i);
+				Node secondNode = nodeList.get(j);
+				try {
+					result.addEdge((T) new Edge(firstNode,secondNode));
+				} catch (AddEdgeException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+		
+	}
+	
 	public List<Node> getNodeList() {
  		return new ArrayList<Node>(nodeList);
 	}
@@ -56,12 +81,44 @@ public class Graph<T extends Edge> {
 	 * Adds new edge to graph. You can't add new edge when:
 	 * <li>Edge start or end points does not exist in graph</li>
 	 * @param edge
+	 * @throws AddEdgeException 
 	 */
 	public void addEdge(T edge) throws AddEdgeException {
 		if (!nodeList.contains(edge.getStart()) || !nodeList.contains(edge.getEnd())){
 			throw new AddEdgeException("Nodes at start or end of the edge does not exist");
 		}
 		edgeList.add(edge);
+	}
+	
+	/**
+	 * Adds new edge to graph. If start and end points does not exist in graph
+	 * there are added automatically
+	 * @param edge edge to add
+	 * @throws AddEdgeException when AddEdge() conditions are not met
+	 * @see {@link Graph#addEdge(Edge)}
+	 */
+	public void addEdgeWithNodes(T edge) throws AddEdgeException{
+		Node nodeStart = edge.getStart();
+		Node nodeEnd = edge.getEnd();
+		if (!nodeList.contains(nodeStart)){
+			nodeList.add(nodeStart);
+		}
+		if (!nodeList.contains(nodeEnd)){
+			nodeList.add(nodeEnd);
+		}
+		this.addEdge(edge);
+	}
+	
+	public void addAllNodes(List<Node> nodeList) throws AddNodeException {
+		for (Node node : nodeList) {
+			this.addNode(node);
+		}
+	}
+	
+	public void addAllEdges(List<T> edgeList) throws AddEdgeException{
+		for (T edge: edgeList){
+			this.addEdge(edge);
+		}
 	}
 	
 	public void removeEdge(T edge) {
@@ -101,19 +158,18 @@ public class Graph<T extends Edge> {
 		
 	}
 	
-	public List<Node> getNearNodes(Node node){
+	public List<Node> getNearNodes(Node node) {
 		Set<Node> result = new HashSet<Node>();
-		for (T nearEdge: getNearEdges(node)){
+		for (T nearEdge : getNearEdges(node)) {
 			result.add(nearEdge.getStart());
 			result.add(nearEdge.getEnd());
 		}
-		
-		//remove the node itself
+		// remove the node itself
 		result.remove(node);
-		
+
 		return new ArrayList<Node>(result);
 	}
-	
+
 	public int getNodeListSize(){
 		return nodeList.size();
 	}
@@ -122,7 +178,12 @@ public class Graph<T extends Edge> {
 		return edgeList.size();
 	}
 	
-	
-	
+	/**
+	 * Removes all edges and all nodes from graph
+	 */
+	public void clear() {
+		nodeList.clear();
+		edgeList.clear();
+	}
 
 }
