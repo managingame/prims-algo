@@ -176,5 +176,13 @@ public class GraphClassTest {
 		assertTrue(edge1.equals(edge2));
 		assertTrue(edge1.hashCode() == edge2.hashCode());
 	}
+	@Test
+	public void testEdgeHashCodeAndEquals(){
+		Edge edge1 = edgeList.get(3);
+		Edge edge2 = edgeList.get(4);
+		
+		assertTrue(edge1.equals(edge2));
+		assertTrue(edge1.hashCode() == edge2.hashCode());
+	}
 
 }
