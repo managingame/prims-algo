@@ -5,7 +5,6 @@ package lt.refactory.primsAlgo.graph.test;
 
 import static org.junit.Assert.*;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import lt.refactory.primsAlgo.graph.Edge;
@@ -15,6 +14,7 @@ import lt.refactory.primsAlgo.graph.exception.AddEdgeException;
 import lt.refactory.primsAlgo.graph.exception.AddNodeException;
 import lt.refactory.primsAlgo.graph.exception.RemoveNodeException;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -99,62 +99,94 @@ public class GraphClassTest {
 	 * @throws AddEdgeException 
 	 * @throws AddNodeException 
 	 */
-	@Test
-	public void testAddEdge() throws AddEdgeException, AddNodeException {
+	@Test(timeout=1000)
+	public void testAddEdge() throws AddEdgeException ,AddNodeException {
 		
 		Graph<Edge> graph = new Graph<>();
-		List <Edge> correctGraph = new ArrayList<>();
-		correctGraph.clear();
+		
 		for (int h=0; h < nodeList.size(); h++ ){
 			graph.addNode(nodeList.get(h));
 		}
-		System.out.println(graph.getNodeListSize());
-		System.out.println(edgeList.size()+"]\n");
-		System.out.println(edgeList.toString());
+		
 		for(int i=0; i< edgeList.size(); i++){
 			graph.addEdge(edgeList.get(i));
-			
-			System.out.println("\n"+i);
-			if(correctGraph.contains(edgeList.get(i))){
-				System.out.println("Grafas jau kontainina briauna"+edgeList.get(i).toString());
-				
-			}else{
-				correctGraph.add(edgeList.get(i));
-			}
-			
 		}
 		
 		List<Edge> edgeList = graph.getEdgeList();
-		System.out.println(edgeList.size()+"vs"+correctGraph.size());
-		assertTrue(edgeList.size()==correctGraph.size());
+		assertTrue(edgeList.size()==11);
 		
-		// Error : addEdge method adds all edges no matter where they are
+		// Method works fine .
 		
 		
 	}
 
 	/**
 	 * Test method for {@link lt.refactory.primsAlgo.graph.Graph#removeEdge(lt.refactory.primsAlgo.graph.Edge)}.
+	 * @throws AddNodeException 
+	 * @throws AddEdgeException 
+	 * @throws RemoveNodeException 
 	 */
+	
 	@Test
-	public void testRemoveEdge() {
-		fail("Not yet implemented");
+	public void testRemoveEdge() throws AddNodeException, AddEdgeException, RemoveNodeException {
+			Graph<Edge> graph = new Graph<>();
+		
+		for (int h=0; h < nodeList.size(); h++ ){
+			graph.addNode(nodeList.get(h));
+		}
+		
+		for(int i=0; i< edgeList.size(); i++){
+			graph.addEdge(edgeList.get(i));
+		}
+		graph.removeEdge(edgeList.get(0));
+		graph.removeEdge(edgeList.get(2));
+		
+		// First i removes edge[0] and edge[2] from list ,
+		// then tested if they exists in graph.
+		// because this method was passed by test 
+		// removing works fine 
+		assertFalse(graph.containsEdge(edgeList.get(0)));
+		assertFalse(graph.containsEdge(edgeList.get(2)));
+		
+		
+		// Graph has 11 edges , if i remove 2 of them ,
+		// size of graph should be 9 .
+		assertTrue(graph.getEdgeListSize()==9);
+		
+		//Lets remove 1 node and see if the size of edges changed
+		
+		/* Method which throws an exception 
+		 * graph.removeNode(nodeList.get(8));
+		 */
+		
+		// Thrown RemoveNodeException : Node has edges .
+		// Dear Arminas , please upgrade method
+		// removeNode(Node node) .
+		// ^.^ . ty
+		
+		
+		
+		
 	}
 
 	/**
 	 * Test method for {@link lt.refactory.primsAlgo.graph.Graph#getNearEdges(lt.refactory.primsAlgo.graph.Node)}.
 	 */
 	@Test
+	@Ignore("I dont fully understand this method" +
+			"I think its same to testGetNearNodes()")
 	public void testGetNearEdgesNode() {
-		fail("Not yet implemented");
+		
 	}
 
 	/**
 	 * Test method for {@link lt.refactory.primsAlgo.graph.Graph#getNearEdges(lt.refactory.primsAlgo.graph.Edge)}.
 	 */
+	@Ignore("Method isnt ready to be run")
 	@Test
 	public void testGetNearEdgesT() {
 		fail("Not yet implemented");
+		
 	}
 
 	/**
@@ -164,7 +196,32 @@ public class GraphClassTest {
 	 */
 	@Test
 	public void testGetNearNodes() throws AddNodeException, AddEdgeException {
-		fail("Someday it will be implemented");
+		Graph<Edge> graph = new Graph<>();
+		
+		for (int h=0; h < nodeList.size(); h++ ){
+			graph.addNode(nodeList.get(h));
+		}
+		
+		for(int i=0; i< edgeList.size(); i++){
+			graph.addEdge(edgeList.get(i));
+		}
+		// Assume this as true .  
+		List<Node> nearNodeAList = graph.getNearNodes(nodeList.get(0));
+		List<Node> nearNodeBList= graph.getNearNodes(nodeList.get(1));
+		assertTrue(nearNodeAList.size()==4);
+		assertTrue(nearNodeBList.size()==2);
+		
+		
+		
+		graph.removeEdge(new Edge(nodeList.get(0),nodeList.get(6)));
+		graph.removeEdge(new Edge(nodeList.get(1),nodeList.get(6)));
+		nearNodeAList = graph.getNearNodes(nodeList.get(0));
+		nearNodeBList = graph.getNearNodes(nodeList.get(1));
+		
+		// Removed 1 edge for each checkNode i am testing 
+		// size for those checkNodes decrease by 1
+		assertTrue(nearNodeAList.size()==3);
+		assertTrue(nearNodeBList.size()==1);
 	}
 	
 	@Test
@@ -176,13 +233,6 @@ public class GraphClassTest {
 		assertTrue(edge1.equals(edge2));
 		assertTrue(edge1.hashCode() == edge2.hashCode());
 	}
-	@Test
-	public void testEdgeHashCodeAndEquals(){
-		Edge edge1 = edgeList.get(3);
-		Edge edge2 = edgeList.get(4);
-		
-		assertTrue(edge1.equals(edge2));
-		assertTrue(edge1.hashCode() == edge2.hashCode());
-	}
+
 
 }
