@@ -87,6 +87,7 @@ public class Graph<T extends Edge> {
 		if (!nodeList.contains(edge.getStart()) || !nodeList.contains(edge.getEnd())){
 			throw new AddEdgeException("Nodes at start or end of the edge does not exist");
 		}
+		System.out.println(edge.hashCode());
 		edgeList.add(edge);
 	}
 	
