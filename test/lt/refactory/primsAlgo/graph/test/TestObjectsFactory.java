@@ -8,46 +8,34 @@ import lt.refactory.primsAlgo.graph.Node;
 
 
 	public class TestObjectsFactory {
-		/* 
-		 * TODO : finish nodes enum
-		public enum enumNodes{
-				A,B,C,D,E,F,G,H,I,J;
-				Node getNode(enumNodes node)
-				{
-					Node requiredNode;
-					switch(node)
-					{
-					case A:
-						requiredNode = new Node(pointsToXArray[0],pointsToYArray[0]);
-						break;
-					case B:
-						requiredNode = new Node(pointsToXArray[0],pointsToYArray[0]);
-						break;
-					case C:
-						requiredNode = new Node(pointsToXArray[0],pointsToYArray[0]);
-						break;
-					case D:
-						requiredNode = new Node(pointsToXArray[0],pointsToYArray[0]);
-						break;
-					case E:
-						requiredNode = new Node(pointsToXArray[0],pointsToYArray[0]);
-						break;
-					case F:
-						requiredNode = new Node(pointsToXArray[0],pointsToYArray[0]);
-						break;
-					case G:
-						requiredNode = new Node(pointsToXArray[0],pointsToYArray[0]);
-						break;
-					default :
-						requiredNode = null;
-						break;
-							
-					}
-					return requiredNode;
-						
+		 
+		
+		public enum enumNode{
+				A(new Node(pointsToXArray[0],pointsToXArray[0])),
+				B(new Node(pointsToXArray[0],pointsToXArray[0])),
+				C(new Node(pointsToXArray[0],pointsToXArray[0])),
+				D(new Node(pointsToXArray[0],pointsToXArray[0])),
+				E(new Node(pointsToXArray[0],pointsToXArray[0])),
+				F(new Node(pointsToXArray[0],pointsToXArray[0])),
+				G(new Node(pointsToXArray[0],pointsToXArray[0])),
+				H(new Node(pointsToXArray[0],pointsToXArray[0])),
+				I(new Node(pointsToXArray[0],pointsToXArray[0])),
+				J(new Node(pointsToXArray[0],pointsToXArray[0]));
+				
+				private final Node node;
+				private enumNode(Node node){
+					this.node  = node;
 				}
+				public Node getNode(){
+					return node;
+				}
+				
+				public Edge getEdge(enumNode otherNode ){
+					return new Edge(this.getNode(),otherNode.getNode());
+				}
+				
 			 }
-			 */
+			 
 		
 		 static final int TESTOBJECTS = 6;
 		 static BigDecimal []pointsToXArray = new BigDecimal[TESTOBJECTS];
@@ -55,8 +43,10 @@ import lt.refactory.primsAlgo.graph.Node;
 		 
 		 
 		 
-		 
+		 // Read about static import ! 
 		 static{
+			 Node test = enumNode.A.getNode();
+			 Edge test2 = enumNode.A.getEdge(enumNode.B);
 			 pointsToXArray[0] = BigDecimal.valueOf(1.0);
 			 pointsToXArray[1] = BigDecimal.valueOf(2.0);
 			 pointsToXArray[2] = BigDecimal.valueOf(-3.0);
