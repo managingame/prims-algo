@@ -171,21 +171,52 @@ public class GraphClassTest {
 
 	/**
 	 * Test method for {@link lt.refactory.primsAlgo.graph.Graph#getNearEdges(lt.refactory.primsAlgo.graph.Node)}.
+	 * @throws AddNodeException 
+	 * @throws AddEdgeException 
 	 */
+	
 	@Test
-	@Ignore("I dont fully understand this method" +
-			"I think its same to testGetNearNodes()")
-	public void testGetNearEdgesNode() {
-		
+	public void testGetNearEdgesNode() throws AddNodeException, AddEdgeException {
+			Graph<Edge> graph = new Graph<>();
+			graph.addAllNodes(nodeList);
+			graph.addAllEdges(edgeList);
+			List<Edge> edgesNearNodeList = graph.getNearEdges(nodeList.get(0));
+			assertTrue(edgesNearNodeList.size()==4);
+			edgesNearNodeList = graph.getNearEdges(nodeList.get(1));
+			assertTrue(edgesNearNodeList.size()==2);
+			
+			// Everything is working fine
+			
+			
+			
 	}
 
 	/**
 	 * Test method for {@link lt.refactory.primsAlgo.graph.Graph#getNearEdges(lt.refactory.primsAlgo.graph.Edge)}.
+	 * @throws AddNodeException 
+	 * @throws AddEdgeException 
 	 */
-	@Ignore("Method isnt ready to be run")
+	
 	@Test
-	public void testGetNearEdgesT() {
-		fail("Not yet implemented");
+	public void testGetNearEdgesEdge() throws AddNodeException, AddEdgeException {
+		Graph<Edge> graph = new Graph<>();
+		graph.addAllNodes(nodeList);
+		graph.addAllEdges(edgeList);
+		
+		List<Edge> edgesNearEdgeList = graph.getNearEdges(edgeList.get(7));
+		assertTrue("Correct answer = "+edgesNearEdgeList.size(),
+									edgesNearEdgeList.size()==3 );
+		
+		
+		edgesNearEdgeList = graph.getNearEdges(edgeList.get(0));
+		assertTrue("Correct answer = "+edgesNearEdgeList.size(),edgesNearEdgeList.size()==6);
+		
+		
+		edgesNearEdgeList = graph.getNearEdges(edgeList.get(9));
+		assertTrue("Correct answer = "+edgesNearEdgeList.size(),edgesNearEdgeList.size()==1);
+		
+		// Method is not working because :
+		// 1) Edge is adding himself to a list .
 		
 	}
 
