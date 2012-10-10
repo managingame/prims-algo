@@ -7,11 +7,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-
 import lt.refactory.primsAlgo.graph.exception.AddEdgeException;
 import lt.refactory.primsAlgo.graph.exception.AddNodeException;
 import lt.refactory.primsAlgo.graph.exception.RemoveNodeException;
-
 
 /**
  * Class to hold graph information
@@ -33,21 +31,25 @@ public class Graph<T extends Edge> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <T extends Edge> Graph<T> fullGraphFactory(List<Node> nodeList){
+	public static <T extends Edge> Graph<T> fullGraphFactory(List<Node> nodeList) {
 		Graph<T> result = new Graph<T>();
-		for (int i = 0; i < nodeList.size(); i++){
-			for (int j = 0; j < nodeList.size(); j++){
-				Node firstNode = nodeList.get(i);
-				Node secondNode = nodeList.get(j);
-				try {
-					result.addEdge((T) new Edge(firstNode,secondNode));
-				} catch (AddEdgeException e) {
-					e.printStackTrace();
+
+		try {
+			result.addAllNodes(nodeList);
+
+			for (int i = 0; i < nodeList.size(); i++) {
+				for (int j = 0; j < nodeList.size(); j++) {
+					Node firstNode = nodeList.get(i);
+					Node secondNode = nodeList.get(j);
+					result.addEdge((T) new Edge(firstNode, secondNode));
 				}
 			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 		return result;
-		
 	}
 	
 	public List<Node> getNodeList() {
