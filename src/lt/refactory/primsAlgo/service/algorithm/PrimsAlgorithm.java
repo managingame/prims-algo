@@ -7,13 +7,12 @@ import lt.refactory.primsAlgo.graph.Graph;
 import lt.refactory.primsAlgo.graph.Node;
 
 public class PrimsAlgorithm {
-	
-	public boolean hasCycle(Graph<? extends Edge> graph){
+
+	public static boolean hasCycle(Graph<? extends Edge> graph){
 		Stack<Node> result = new Stack<Node>();
 		Node start = graph.getNodeList().get(0);
 		return depthFirstSearch(start,result,graph);
 	}
-	
 	
 	private static boolean depthFirstSearch(Node start, Stack<Node> result,
 			Graph<?> graph) {
@@ -37,5 +36,4 @@ public class PrimsAlgorithm {
 		result.pop();
 		return false;
 	}
-
 }

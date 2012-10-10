@@ -28,6 +28,13 @@ public class Edge {
 	public Node getEnd() {
 		return end;
 	}
+	
+	public boolean containsNode(Node node){
+		if (start.equals(node) || end.equals(node)) {
+			return true;
+		}
+		return false;
+	}
 
 	@Override
 	public String toString() {

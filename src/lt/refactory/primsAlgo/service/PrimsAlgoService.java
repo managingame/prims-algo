@@ -2,6 +2,7 @@ package lt.refactory.primsAlgo.service;
 
 import lt.refactory.primsAlgo.graph.Graph;
 import lt.refactory.primsAlgo.graph.WeightedEdge;
+import lt.refactory.primsAlgo.graph.mock.GraphMock;
 import lt.refactory.primsAlgo.service.algorithm.PrimsAlgorithm;
 import lt.refactory.primsAlgo.service.algorithm.SteinersAlgorithm;
 
@@ -21,6 +22,11 @@ public class PrimsAlgoService {
 		throw new UnsupportedOperationException();
 	}
 	
-
-
+	// for testing
+	public static void main(String[] args) {
+		PrimsAlgoService service = new PrimsAlgoService();
+		GraphMock<WeightedEdge> graph = new GraphMock<WeightedEdge>();
+		graph.getEdgeList().clear();
+		service.getSmallestTree(graph);
+	}
 }
