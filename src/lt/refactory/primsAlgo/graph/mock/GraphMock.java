@@ -16,10 +16,10 @@ public class GraphMock<T extends Edge> extends Graph<T> {
 	public GraphMock(){
 		edgeList = new ArrayList<T>();
 		nodeList = new ArrayList<Node>();
-		Node node1 = new Node(BigDecimal.valueOf(1),BigDecimal.valueOf(1));
-		Node node2 = new Node(BigDecimal.valueOf(5),BigDecimal.valueOf(5));
-		Node node3 = new Node(BigDecimal.valueOf(3),BigDecimal.valueOf(3));
-		Node node4 = new Node(BigDecimal.valueOf(10),BigDecimal.valueOf(10));
+		Node node1 = new Node(BigDecimal.valueOf(100),BigDecimal.valueOf(100));
+		Node node2 = new Node(BigDecimal.valueOf(500),BigDecimal.valueOf(50));
+		Node node3 = new Node(BigDecimal.valueOf(300),BigDecimal.valueOf(300));
+		Node node4 = new Node(BigDecimal.valueOf(100),BigDecimal.valueOf(10));
 		
 		nodeList.add(node1);
 		nodeList.add(node2);
