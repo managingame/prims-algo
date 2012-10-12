@@ -141,7 +141,6 @@ public class GraphPanel extends javax.swing.JFrame   {
     	super.paint(g);
     	jPanel1.setOpaque(true);
     	
-    	System.out.println(jPanel1.getX()+":"+jPanel1.getY());
     	Graph<Edge> graph = new GraphMock<Edge>();
     	/*
     	for (Edge edge : graph.getEdgeList()){
@@ -196,9 +195,14 @@ public class GraphPanel extends javax.swing.JFrame   {
 		point.add(y);
 		pointList.add((ArrayList<Integer>) point);
 		needToPaint = true;
-		System.out.println(needToPaint);
 		repaint();
     }
+    
+    public void AddPoint(List<Integer> point) {
+		
+		pointList.add((ArrayList<Integer>) point);
+	}
+    
     public void AddEdge(int x1 , int y1 , int x2 ,int y2){
     	List<Integer> edge = new ArrayList<>();
     	edge.add(x1);
@@ -238,5 +242,6 @@ public class GraphPanel extends javax.swing.JFrame   {
     private GraphMouseListener graphMouseListener;
     private GraphMouseMotionListener graphMouseMotionListener;
     // End of variables declaration
+	
 	
 }
