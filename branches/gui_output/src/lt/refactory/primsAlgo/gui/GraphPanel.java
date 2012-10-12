@@ -16,6 +16,8 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.sound.sampled.Line;
 import javax.swing.BorderFactory;
@@ -37,8 +39,10 @@ import lt.refactory.primsAlgo.graph.mock.GraphMock;
  *
  * @author Egidijus
  */
-public class GraphPanel extends javax.swing.JFrame {
+public class GraphPanel extends javax.swing.JFrame  {
 
+	List<ArrayList<Integer>> pointList ;
+	
     /**
 	 * 
 	 */
@@ -46,7 +50,10 @@ public class GraphPanel extends javax.swing.JFrame {
 	private static final long serialVersionUID = 1L;
 	/** Creates new form GraphPanel */
     public GraphPanel() {
+    	pointList = new ArrayList<>();
+    	
         initComponents();
+        jPanel1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
     }
 
     private void initComponents() {
@@ -58,6 +65,48 @@ public class GraphPanel extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
+        
+        jPanel1.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Pele pajudejo");
+				x = e.getXOnScreen();
+				y = e.getYOnScreen();
+				List<Integer> point = new ArrayList<>();
+				point.add(x);
+				point.add(y);
+				pointList.add((ArrayList<Integer>) point);
+				
+				
+				repaint();
+				
+			}
+		});
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         
@@ -115,27 +164,45 @@ public class GraphPanel extends javax.swing.JFrame {
 
         pack();
     }
-    @Override
+    
+    @SuppressWarnings("unused")
+	@Override
     public void paint(Graphics g) {
     	super.paint(g);
+    	jProgressBar1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
     	
+    	System.out.println(x+"<:>"+y);
+    	jPanel1.setOpaque(true);
     	g.setColor(Color.RED);
- 
+    	System.out.println(jPanel1.getX()+":"+jPanel1.getY());
     	Graph<Edge> graph = new GraphMock<Edge>();
-
+    	System.out.println("Kviestas paint metodas");
+    	/*
     	for (Edge edge : graph.getEdgeList()){
     		Node node1 = edge.getStart();
+    		
+    		
     		Node node2 = edge.getEnd();
-    		g.drawLine(Integer.valueOf(node1.getPointX().toString()), 
-    					Integer.valueOf(node1.getPointY().toString()),
-    					Integer.valueOf(node2.getPointX().toString()), 
-    					Integer.valueOf(node2.getPointY().toString()));
+    		System.out.println(node1.toString());
+    		System.out.println(node2.toString());
+    		g.drawLine(jPanel1.getX()+Integer.valueOf(node1.getPointX().toString()), 
+    				jPanel1.getY()+Integer.valueOf(node1.getPointY().toString()),
+    				jPanel1.getX()+Integer.valueOf(node2.getPointX().toString()), 
+    				jPanel1.getY()+Integer.valueOf(node2.getPointY().toString()));
     	}
-
+    	*/
+    	g.setColor(Color.BLACK);
+    	for (ArrayList<Integer> point : pointList)
+    	{
+    		
+    		g.fillOval(point.get(0), point.get(1), 7, 7);
+    	}
+    	
+    	
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws InterruptedException {
-        
+        repaint();
         jProgressBar1.setBackground(Color.BLUE);
         jProgressBar1.setForeground(Color.BLACK);
         jProgressBar1.setStringPainted(true);
@@ -143,8 +210,7 @@ public class GraphPanel extends javax.swing.JFrame {
         jProgressBar1.setMinimum(0);
         
         jProgressBar1.setMaximum(10);
-        x=100;
-        y=100;
+        
         jProgressBar1.setString("Finished");
         paintComponents(getGraphics());
     }
@@ -178,4 +244,5 @@ public class GraphPanel extends javax.swing.JFrame {
     private JPanel jPanel1;
     private javax.swing.JProgressBar jProgressBar1;
     // End of variables declaration
+	
 }
