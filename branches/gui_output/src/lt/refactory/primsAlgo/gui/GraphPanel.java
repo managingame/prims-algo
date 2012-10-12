@@ -27,6 +27,8 @@ import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
 import javax.swing.UIManager;
 
+import com.sun.corba.se.spi.extension.CopyObjectPolicy;
+
 import lt.refactory.primsAlgo.graph.Edge;
 import lt.refactory.primsAlgo.graph.Graph;
 import lt.refactory.primsAlgo.graph.Node;
@@ -39,22 +41,26 @@ import lt.refactory.primsAlgo.graph.mock.GraphMock;
  *
  * @author Egidijus
  */
-public class GraphPanel extends javax.swing.JFrame  {
+public class GraphPanel extends javax.swing.JFrame   {
 
-	List<ArrayList<Integer>> pointList ;
-	
+	private List<ArrayList<Integer>> pointList ;
+	private List<ArrayList<Integer>> edgeList;
     /**
 	 * 
 	 */
 	int x , y = -1;
+
+	private boolean needToPaint = false;
 	private static final long serialVersionUID = 1L;
 	/** Creates new form GraphPanel */
     public GraphPanel() {
     	pointList = new ArrayList<>();
-    	
+    	edgeList = new ArrayList<>();
         initComponents();
+        jProgressBar1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         jPanel1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
     }
+    
 
     private void initComponents() {
         jProgressBar1 = new javax.swing.JProgressBar();
@@ -65,49 +71,13 @@ public class GraphPanel extends javax.swing.JFrame  {
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
+        graphMouseListener = new GraphMouseListener(this);
+        graphMouseMotionListener = new GraphMouseMotionListener();
         
-        jPanel1.addMouseListener(new MouseListener() {
+        jPanel1.addMouseListener(graphMouseListener);
+        jPanel1.addMouseMotionListener(graphMouseMotionListener);
 			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
 			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("Pele pajudejo");
-				x = e.getXOnScreen();
-				y = e.getYOnScreen();
-				List<Integer> point = new ArrayList<>();
-				point.add(x);
-				point.add(y);
-				pointList.add((ArrayList<Integer>) point);
-				
-				
-				repaint();
-				
-			}
-		});
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         
         jButton1.setText("jButton1");
@@ -169,14 +139,10 @@ public class GraphPanel extends javax.swing.JFrame  {
 	@Override
     public void paint(Graphics g) {
     	super.paint(g);
-    	jProgressBar1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-    	
-    	System.out.println(x+"<:>"+y);
     	jPanel1.setOpaque(true);
-    	g.setColor(Color.RED);
+    	
     	System.out.println(jPanel1.getX()+":"+jPanel1.getY());
     	Graph<Edge> graph = new GraphMock<Edge>();
-    	System.out.println("Kviestas paint metodas");
     	/*
     	for (Edge edge : graph.getEdgeList()){
     		Node node1 = edge.getStart();
@@ -192,11 +158,21 @@ public class GraphPanel extends javax.swing.JFrame  {
     	}
     	*/
     	g.setColor(Color.BLACK);
-    	for (ArrayList<Integer> point : pointList)
-    	{
-    		
-    		g.fillOval(point.get(0), point.get(1), 7, 7);
-    	}
+    	int i=0;
+	    	for (ArrayList<Integer> point : pointList)
+	    	{
+	    		
+	    		//g.drawString("("+(i++)+")", point.get(0)-3, point.get(1)-4);
+	    		g.drawString(point.get(0)+":"+point.get(1), point.get(0)-6, point.get(1)-4);
+	    		g.fillOval(point.get(0), point.get(1), 7, 7);
+	    		
+	    	}
+	    	for (ArrayList<Integer> edge : edgeList)
+	    	{
+	    		g.drawLine(edge.get(0), edge.get(1), edge.get(2), edge.get(3));
+	    	}
+	    	
+    	
     	
     	
     }
@@ -207,15 +183,31 @@ public class GraphPanel extends javax.swing.JFrame  {
         jProgressBar1.setForeground(Color.BLACK);
         jProgressBar1.setStringPainted(true);
         jProgressBar1.setToolTipText("Mighty and powerfull status bar");
-        jProgressBar1.setMinimum(0);
-        
-        jProgressBar1.setMaximum(10);
-        
+        jProgressBar1.setMinimum(0); 
+        jProgressBar1.setMaximum(10); 
         jProgressBar1.setString("Finished");
         paintComponents(getGraphics());
     }
-    
-
+    public void AddPoint(int x,int y)
+    {
+    	 System.out.println("Buvo kreptasi");
+    	List<Integer> point = new ArrayList<>();
+		point.add(x);
+		point.add(y);
+		pointList.add((ArrayList<Integer>) point);
+		needToPaint = true;
+		System.out.println(needToPaint);
+		repaint();
+    }
+    public void AddEdge(int x1 , int y1 , int x2 ,int y2){
+    	List<Integer> edge = new ArrayList<>();
+    	edge.add(x1);
+    	edge.add(y1);
+    	edge.add(x2);
+    	edge.add(y2);
+    	edgeList.add((ArrayList<Integer>) edge);
+    	repaint();
+    }
     /**
      * @param args the command line arguments
      */
@@ -243,6 +235,8 @@ public class GraphPanel extends javax.swing.JFrame  {
     private javax.swing.JMenuBar jMenuBar1;
     private JPanel jPanel1;
     private javax.swing.JProgressBar jProgressBar1;
+    private GraphMouseListener graphMouseListener;
+    private GraphMouseMotionListener graphMouseMotionListener;
     // End of variables declaration
 	
 }
