@@ -1,5 +1,6 @@
 package lt.refactory.primsAlgo.graph.test;
-
+// TODO - 1) Move this shit to utils subpackage
+// TODO - 2) Create points using enum
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +13,11 @@ import lt.refactory.primsAlgo.graph.Node;
 		
 		public enum enumNode{
 				A(new Node(pointsToXArray[0],pointsToXArray[0])),
-				B(new Node(pointsToXArray[0],pointsToXArray[0])),
-				C(new Node(pointsToXArray[0],pointsToXArray[0])),
-				D(new Node(pointsToXArray[0],pointsToXArray[0])),
-				E(new Node(pointsToXArray[0],pointsToXArray[0])),
-				F(new Node(pointsToXArray[0],pointsToXArray[0])),
+				B(new Node(pointsToXArray[1],pointsToXArray[1])),
+				C(new Node(pointsToXArray[2],pointsToXArray[2])),
+				D(new Node(pointsToXArray[3],pointsToXArray[3])),
+				E(new Node(pointsToXArray[4],pointsToXArray[4])),
+				F(new Node(pointsToXArray[5],pointsToXArray[5])),
 				G(new Node(pointsToXArray[0],pointsToXArray[0])),
 				H(new Node(pointsToXArray[0],pointsToXArray[0])),
 				I(new Node(pointsToXArray[0],pointsToXArray[0])),
