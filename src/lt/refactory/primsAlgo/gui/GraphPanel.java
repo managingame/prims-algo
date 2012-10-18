@@ -163,12 +163,12 @@ public class GraphPanel extends javax.swing.JFrame   {
 	    		
 	    		//g.drawString("("+(i++)+")", point.get(0)-3, point.get(1)-4);
 	    		g.drawString(point.get(0)+":"+point.get(1), point.get(0)-6, point.get(1)-4);
-	    		g.fillOval(point.get(0), point.get(1), 7, 7);
+	    		g.fillOval(point.get(0), point.get(1), 10, 10);
 	    		
 	    	}
 	    	for (ArrayList<Integer> edge : edgeList)
 	    	{
-	    		g.drawLine(edge.get(0), edge.get(1), edge.get(2), edge.get(3));
+	    		g.drawLine(edge.get(0)+5, edge.get(1)+5, edge.get(2)+5, edge.get(3)+5);
 	    	}
 	    	
     	
