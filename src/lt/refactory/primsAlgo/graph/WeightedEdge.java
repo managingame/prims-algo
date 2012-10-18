@@ -7,7 +7,7 @@ import java.math.BigDecimal;
  * @author arminas
  *
  */
-public class WeightedEdge extends Edge{
+public class WeightedEdge extends Edge implements Comparable<WeightedEdge>{
 	private BigDecimal weight;
 	
 	public WeightedEdge(Edge edge){
@@ -49,6 +49,10 @@ public class WeightedEdge extends Edge{
 		} else if (!weight.equals(other.weight))
 			return false;
 		return true;
+	}
+	@Override
+	public int compareTo(WeightedEdge o) {
+		return this.weight.compareTo(o.weight);
 	}	
 
 }
