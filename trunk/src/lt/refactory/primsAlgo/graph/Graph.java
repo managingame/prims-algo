@@ -100,15 +100,11 @@ public class Graph<T extends Edge> {
 	 * @throws AddEdgeException when AddEdge() conditions are not met
 	 * @see {@link Graph#addEdge(Edge)}
 	 */
-	public void addEdgeWithNodes(T edge) throws AddEdgeException{
+	public void addEdgeWithNodes(T edge) throws AddEdgeException {
 		Node nodeStart = edge.getStart();
 		Node nodeEnd = edge.getEnd();
-		if (!nodeList.contains(nodeStart)){
-			nodeList.add(nodeStart);
-		}
-		if (!nodeList.contains(nodeEnd)){
-			nodeList.add(nodeEnd);
-		}
+		nodeList.add(nodeStart);
+		nodeList.add(nodeEnd);
 		this.addEdge(edge);
 	}
 	
@@ -118,9 +114,22 @@ public class Graph<T extends Edge> {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public void addAll(Graph<T> graph) throws AddEdgeException{
+		for (Edge edge : graph.getEdgeList()){
+			this.addEdgeWithNodes((T) edge);
+		}
+	}
+	
 	public void addAllEdges(List<T> edgeList) throws AddEdgeException{
 		for (T edge: edgeList){
 			this.addEdge(edge);
+		}
+	}
+	
+	public void addAllEdgesWithNodes(List<T> edgeList) throws AddEdgeException{
+		for (T edge: edgeList){
+			this.addEdgeWithNodes(edge);
 		}
 	}
 	
@@ -157,6 +166,8 @@ public class Graph<T extends Edge> {
 		Set<T> result = new HashSet<T>();
 		result.addAll(firstNodeNearEdgeList);
 		result.addAll(secondNodeNearEdgeList);
+		// remove the edge itself
+		result.remove(edge);
 		return new ArrayList<T>(result);
 		
 	}
