@@ -1,5 +1,6 @@
 package lt.refactory.primsAlgo.service.algorithm;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.math.BigDecimal;
 
@@ -197,7 +198,7 @@ public class SteinersAlgorithm {
 				.divide(area.multiply(BigDecimal.valueOf(4)));
 		
 		// different circle radius equation r = sqrt(3) / 3 * a
-		// todo : compare radius to anotherRadius to be sure that same result is get
+		// TODO : compare radius to anotherRadius to be sure that same result is get
 		BigDecimal anotherRadius = BigDecimal.valueOf(Math.sqrt(3) / 3 * firstWeight.doubleValue());
 		
 		// we need two edges for center point finding
@@ -236,5 +237,148 @@ public class SteinersAlgorithm {
 		result.setB(startNode.getPointY().subtract(startNode.getPointX().multiply(result.getK())));
 		
 		return result;
+	}
+	
+	public static WeightedEdge getEdgeThroughTriangles(Graph<WeightedEdge> triangle, Graph<WeightedEdge> equilateral) throws AlgorithmException {
+		
+		// TODO : make combined graph
+		Graph<WeightedEdge> combinedGraph = new Graph<WeightedEdge>();
+		
+		List<Node> resultNodes = new ArrayList<Node>();
+		List<Node> nearNodes;
+		
+		for (Node node : combinedGraph.getNodeList()) {
+			nearNodes = combinedGraph.getNearNodes(node);
+			if (nearNodes.size() == 2) {
+				resultNodes.add(node);
+			}
+		}
+		
+		if (resultNodes.size() != 2) {
+			throw new AlgorithmException("Found more or less edges than needed");
+		}
+		
+		Edge resultEdge = new Edge(resultNodes.get(0), resultNodes.get(1));
+		BigDecimal weight = getEdgeLength(resultEdge);
+		
+		return new WeightedEdge(resultEdge, weight);
+	}
+	
+	public static Node getSteinersPoint(WeightedEdge edge, Circle circle) {
+		
+		LinearFunctionParameters edgeParameters = getLinearFunctionParameters(edge.getStart(), edge.getEnd());
+		
+		// find quadratic function parameters:
+		// a = k * k + 1
+		BigDecimal a = edgeParameters.getK().pow(2).add(BigDecimal.ONE); 
+		// b = 2 * (k * (z - b) - a) // here z = b from edgeParameters
+		BigDecimal b = edgeParameters.getK()
+				.multiply(edgeParameters.getB().subtract(circle.getCenterPoint().getPointY()))
+				.subtract(circle.getCenterPoint().getPointX())
+				.multiply(BigDecimal.valueOf(2));
+		// c = a * a - r * r
+		BigDecimal c = circle.getCenterPoint().getPointX().pow(2)
+				.subtract(circle.getRadius().pow(2));
+		
+		// discriminant D = b * b - 4 * a * c
+		BigDecimal D = b.multiply(b)
+				.subtract(BigDecimal.valueOf(4).multiply(a).multiply(c));
+		
+		// find result points
+		BigDecimal x1 = b.negate()
+				.subtract(BigDecimal.valueOf(Math.sqrt(D.doubleValue())))
+				.divide(a.multiply(BigDecimal.valueOf(2)));
+		
+		BigDecimal x2 = b.negate()
+				.add(BigDecimal.valueOf(Math.sqrt(D.doubleValue())))
+				.divide(a.multiply(BigDecimal.valueOf(2)));
+				
+		BigDecimal y1 = edgeParameters.getK()
+				.multiply(x1)
+				.subtract(edgeParameters.getB());
+		
+		BigDecimal y2 = edgeParameters.getK()
+				.multiply(x2)
+				.subtract(edgeParameters.getB());
+		
+		Node firstPoint = new Node(x1, y1);
+		Node secondPoint = new Node(x2, y2);
+		
+		// TODO : need to check if this condition is valid, maybe there are some difference between numbers
+		if (firstPoint == edge.getStart() || firstPoint == edge.getEnd()) {
+			return secondPoint;
+		} else {
+			return firstPoint;
+		}
+	}
+	
+	public static Graph<WeightedEdge> changeGraphEdges(Graph<WeightedEdge> currentGraph, WeightedEdge edge, WeightedEdge nearEdge, Node steinerPoint){
+		Node commonPoint = getCommonPoint(edge, nearEdge);
+		
+		// remove old edges
+		currentGraph.removeEdge(edge);
+		currentGraph.removeEdge(nearEdge);
+		
+		// create new adges
+		Edge firstNewEdge = new Edge(commonPoint, steinerPoint);
+		Edge secondNewEdge;
+		Edge thirdNewEdge;
+		
+		if (edge.getStart().equals(commonPoint)) {
+			secondNewEdge = new Edge(edge.getEnd(), steinerPoint);
+		} else {
+			secondNewEdge = new Edge(edge.getStart(), steinerPoint);
+		}
+		
+		if (nearEdge.getStart().equals(commonPoint)) {
+			thirdNewEdge = new Edge(nearEdge.getEnd(), steinerPoint);
+		} else {
+			thirdNewEdge = new Edge(nearEdge.getStart(), steinerPoint);
+		}
+		
+		WeightedEdge firstWeightedEdge = new WeightedEdge(firstNewEdge, getEdgeLength(firstNewEdge));
+		WeightedEdge secondWeightedEdge = new WeightedEdge(secondNewEdge, getEdgeLength(secondNewEdge));
+		WeightedEdge thirdWeightedEdge = new WeightedEdge(thirdNewEdge, getEdgeLength(thirdNewEdge));
+		
+		// add new edges
+		try {
+			currentGraph.addEdgeWithNodes(firstWeightedEdge);
+			currentGraph.addEdgeWithNodes(secondWeightedEdge);
+			currentGraph.addEdgeWithNodes(thirdWeightedEdge);
+		} catch (AddEdgeException ex) {
+			ex.printStackTrace();
+		}
+		
+		return currentGraph;
+	}
+	
+	public static Graph<WeightedEdge> getWeightedGraph(Graph<Edge> graph) {
+		Graph<WeightedEdge> resultGraph = new Graph<WeightedEdge>();
+		
+		for (Edge edge : graph.getEdgeList()) {
+			try {
+				resultGraph.addEdgeWithNodes(new WeightedEdge(edge, getEdgeLength(edge)));
+			} catch (AddEdgeException ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		return resultGraph;
+	}
+	
+	public static BigDecimal getGraphLength(Graph<WeightedEdge> graph) {
+		BigDecimal result = BigDecimal.ZERO;
+		
+		for (WeightedEdge edge : graph.getEdgeList()) {
+			result.add(edge.getWeight());
+		}
+		return result;
+	}
+	
+	public static BigDecimal calculateGraphLengthsDifference(Graph<WeightedEdge> firstGraph, Graph<WeightedEdge> shorterGraph) {
+		BigDecimal firstLength = getGraphLength(firstGraph);
+		BigDecimal secondLength = getGraphLength(shorterGraph);
+		
+		return firstLength.subtract(secondLength);
 	}
 }
