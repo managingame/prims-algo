@@ -17,19 +17,11 @@ public class Circle {
 	public Node getCenterPoint() {
 		return centerPoint;
 	}
-
-	public void setCenterPoint(Node centerPoint) {
-		this.centerPoint = centerPoint;
-	}
-
+	
 	public BigDecimal getRadius() {
 		return radius;
 	}
-
-	public void setRadius(BigDecimal radius) {
-		this.radius = radius;
-	}
-
+	
 	@Override
 	public String toString() {
 		return "Circle [centerPoint=" + centerPoint + ", radius=" + radius
@@ -48,23 +40,30 @@ public class Circle {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Circle other = (Circle) obj;
 		if (centerPoint == null) {
-			if (other.centerPoint != null)
+			if (other.centerPoint != null) {
 				return false;
-		} else if (!centerPoint.equals(other.centerPoint))
+			}
+		} else if (!centerPoint.equals(other.centerPoint)) {
 			return false;
+		}
 		if (radius == null) {
-			if (other.radius != null)
+			if (other.radius != null) {
 				return false;
-		} else if (!radius.equals(other.radius))
+			}
+		} else if (!radius.equals(other.radius)) {
 			return false;
+		}
 		return true;
 	}
 }
