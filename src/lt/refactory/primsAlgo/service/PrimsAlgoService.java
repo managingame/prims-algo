@@ -21,12 +21,4 @@ public class PrimsAlgoService {
 	public Graph<WeightedEdge> getSmallestTree(Graph<WeightedEdge> graph){
 		throw new UnsupportedOperationException();
 	}
-	
-	// for testing
-	public static void main(String[] args) {
-		PrimsAlgoService service = new PrimsAlgoService();
-		GraphMock<WeightedEdge> graph = new GraphMock<WeightedEdge>();
-		graph.getEdgeList().clear();
-		service.getSmallestTree(graph);
-	}
 }
