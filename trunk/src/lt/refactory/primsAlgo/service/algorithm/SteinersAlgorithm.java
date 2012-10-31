@@ -3,6 +3,8 @@ package lt.refactory.primsAlgo.service.algorithm;
 import java.util.ArrayList;
 import java.util.List;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 import lt.refactory.primsAlgo.graph.Edge;
 import lt.refactory.primsAlgo.graph.Graph;
@@ -19,6 +21,8 @@ import lt.refactory.primsAlgo.service.algorithm.models.LinearFunctionParameters;
  *
  */
 public class SteinersAlgorithm {
+	
+	public static final int DIVISION_PRECISION = 10;
 	
 	public static <T extends Edge> T getGraphLeave(Graph<T> graph) throws AlgorithmException {
 		for (T edge : graph.getEdgeList()) {
@@ -44,16 +48,20 @@ public class SteinersAlgorithm {
 			Node secondVector = new Node(pointX, pointY);
 			
 			// |a| * |b|
-			BigDecimal scalarMultiplication = SteinersAlgorithm.getEdgeLength(edge1).multiply(SteinersAlgorithm.getEdgeLength(edge2));
+			BigDecimal scalarMultiplication = SteinersAlgorithm.getVectorLength(firstVector).multiply(SteinersAlgorithm.getVectorLength(secondVector));
 			
 			// a x b
 			BigDecimal vectorMultiplication = 
 					firstVector.getPointX().multiply(secondVector.getPointX())
 					.add(firstVector.getPointY().multiply(secondVector.getPointY()));
+
+			double result = Math.acos(vectorMultiplication.divide(scalarMultiplication, DIVISION_PRECISION, RoundingMode.FLOOR).doubleValue());
 			
-			double result = Math.acos(scalarMultiplication.divide(vectorMultiplication).doubleValue());
+			if (result == 0) {
+				return BigDecimal.valueOf(180);
+			}
 			
-			return BigDecimal.valueOf(result);
+			return BigDecimal.valueOf(Math.toDegrees(result)).round(new MathContext(2, RoundingMode.FLOOR));
 		}
 		throw new AlgorithmException("Cannot compute angle of edges which doesn't have a common point");
 	}
@@ -80,9 +88,15 @@ public class SteinersAlgorithm {
 		
 		BigDecimal difference1 = node1.getPointX().pow(2).subtract(node2.getPointX().pow(2));
 		BigDecimal difference2 = node1.getPointY().pow(2).subtract(node2.getPointY().pow(2));		
-		double length = Math.sqrt(difference1.add(difference2).doubleValue());
+		double length = Math.sqrt(Math.abs(difference1.add(difference2).doubleValue()));
 		
 		return BigDecimal.valueOf(length);
+	}
+	
+	public static BigDecimal getVectorLength(Node vector) {
+		BigDecimal result = vector.getPointX().pow(2).add(vector.getPointY().pow(2));
+		
+		return BigDecimal.valueOf(Math.sqrt(result.doubleValue()));
 	}
 	
 	public static Graph<WeightedEdge> getTriangleWithWeights(Edge firstEdge, Edge secondEdge) throws AlgorithmException, AddEdgeException {
