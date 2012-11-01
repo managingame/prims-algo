@@ -13,8 +13,7 @@ import lt.refactory.primsAlgo.graph.exception.AddEdgeException;
 
 public class PrimsAlgorithm {
 
-	
-	public <T extends WeightedEdge> Graph<T> solve (Graph<T> graph){
+	public static <T extends WeightedEdge> Graph<T> solve (Graph<T> graph){
 		List<T> result = new ArrayList<T>();
 		List<T> sortedEdgeList = graph.getEdgeList();
 		Collections.sort(sortedEdgeList);
