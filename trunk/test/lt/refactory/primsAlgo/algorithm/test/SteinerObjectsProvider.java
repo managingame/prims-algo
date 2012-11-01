@@ -33,18 +33,38 @@ public class SteinerObjectsProvider {
 		return graph;
 	}
 	
-	public Graph<WeightedEdge> getTriangle() {
+	public Graph<WeightedEdge> getTriangle(int which) {
 		Graph<WeightedEdge> graph = new Graph<WeightedEdge>();
 		
 		try {
-			Edge edge = getEdge(0, 0, 0, 4);
-			graph.addEdgeWithNodes(new WeightedEdge(edge, SteinersAlgorithm.getEdgeLength(edge)));
+			Edge firstEdge = null;
+			Edge secondEdge = null;
+			Edge thirdEdge = null;
 			
-			edge = getEdge(0, 4, 3, 0);
-			graph.addEdgeWithNodes(new WeightedEdge(edge, SteinersAlgorithm.getEdgeLength(edge)));
+			switch(which) {
+			case 1:
+				// first one vertical line
+				firstEdge = getEdge(0, 0, 0, 4);
+				secondEdge = getEdge(0, 4, 3, 0);
+				thirdEdge = getEdge(0, 0, 3, 0);
+				break;
+			case 2:
+				// first one diagonal line
+				firstEdge = getEdge(0, 4, 3, 0);
+				secondEdge = getEdge(0, 0, 0, 4);
+				thirdEdge = getEdge(0, 0, 3, 0);
+				break;
+			case 3:
+				// first one horizontal line
+				firstEdge = getEdge(0, 0, 3, 0);
+				secondEdge = getEdge(0, 4, 3, 0);
+				thirdEdge = getEdge(0, 0, 0, 4);
+				break;
+			}
 			
-			edge = getEdge(0, 0, 3, 0);
-			graph.addEdgeWithNodes(new WeightedEdge(edge, SteinersAlgorithm.getEdgeLength(edge)));
+			graph.addEdgeWithNodes(new WeightedEdge(firstEdge, SteinersAlgorithm.getEdgeLength(firstEdge)));
+			graph.addEdgeWithNodes(new WeightedEdge(secondEdge, SteinersAlgorithm.getEdgeLength(secondEdge)));
+			graph.addEdgeWithNodes(new WeightedEdge(thirdEdge, SteinersAlgorithm.getEdgeLength(thirdEdge)));
 			
 		} catch (AddEdgeException ex) {
 			ex.printStackTrace();
