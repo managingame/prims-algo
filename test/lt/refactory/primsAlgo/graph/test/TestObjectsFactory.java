@@ -12,13 +12,13 @@ import lt.refactory.primsAlgo.graph.Node;
 		 
 		
 		public enum enumNode{
-				A(new Node(pointsToXArray[0],pointsToXArray[0])),
-				B(new Node(pointsToXArray[1],pointsToXArray[1])),
-				C(new Node(pointsToXArray[2],pointsToXArray[2])),
-				D(new Node(pointsToXArray[3],pointsToXArray[3])),
-				E(new Node(pointsToXArray[4],pointsToXArray[4])),
-				F(new Node(pointsToXArray[5],pointsToXArray[5])),
-				G(new Node(pointsToXArray[0],pointsToXArray[0])),
+				A(new Node(BigDecimal.valueOf(1),BigDecimal.valueOf(1))),
+				B(new Node(BigDecimal.valueOf(2),BigDecimal.valueOf(2))),
+				C(new Node(BigDecimal.valueOf(3),BigDecimal.valueOf(3))),
+				D(new Node(BigDecimal.valueOf(4),BigDecimal.valueOf(4))),
+				E(new Node(BigDecimal.valueOf(5),BigDecimal.valueOf(5))),
+				F(new Node(BigDecimal.valueOf(6),BigDecimal.valueOf(6))),
+				G(new Node(BigDecimal.valueOf(7),BigDecimal.valueOf(7))),
 				H(new Node(pointsToXArray[0],pointsToXArray[0])),
 				I(new Node(pointsToXArray[0],pointsToXArray[0])),
 				J(new Node(pointsToXArray[0],pointsToXArray[0]));
@@ -46,8 +46,6 @@ import lt.refactory.primsAlgo.graph.Node;
 		 
 		 // Read about static import ! 
 		 static{
-			 Node test = enumNode.A.getNode();
-			 Edge test2 = enumNode.A.getEdge(enumNode.B);
 			 pointsToXArray[0] = BigDecimal.valueOf(1.0);
 			 pointsToXArray[1] = BigDecimal.valueOf(2.0);
 			 pointsToXArray[2] = BigDecimal.valueOf(-3.0);

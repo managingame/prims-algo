@@ -2,20 +2,26 @@ package lt.refactory.primsAlgo.service;
 
 import java.math.BigDecimal;
 
-import lt.refactory.primsAlgo.graph.Edge;
 import lt.refactory.primsAlgo.graph.Graph;
 import lt.refactory.primsAlgo.graph.Node;
 import lt.refactory.primsAlgo.graph.WeightedEdge;
 import lt.refactory.primsAlgo.graph.exception.AddEdgeException;
-import lt.refactory.primsAlgo.graph.mock.GraphMock;
 import lt.refactory.primsAlgo.service.algorithm.PrimsAlgorithm;
 import lt.refactory.primsAlgo.service.algorithm.SteinersAlgorithm;
 import lt.refactory.primsAlgo.service.algorithm.exceptions.AlgorithmException;
 import lt.refactory.primsAlgo.service.algorithm.models.Circle;
 
 public class PrimsAlgoService {
-
-	public Graph<WeightedEdge> getSmallestTreeWithOnePoint(Graph<WeightedEdge> graph) {
+	
+	public static Graph<WeightedEdge> getResult(Graph<WeightedEdge> graph){
+		Graph<WeightedEdge> result = PrimsAlgorithm.solve(graph);
+		result = getSmallestTreeWithOnePoint(graph);
+		
+		return result;
+	}
+	
+	
+	public static Graph<WeightedEdge> getSmallestTreeWithOnePoint(Graph<WeightedEdge> graph) {
 		
 		// will be used for graph size difference calculations
 		Graph<WeightedEdge> smallestTreeFull = PrimsAlgorithm.solve(graph);

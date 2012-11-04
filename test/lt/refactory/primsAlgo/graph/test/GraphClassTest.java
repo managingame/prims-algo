@@ -14,7 +14,6 @@ import lt.refactory.primsAlgo.graph.exception.AddEdgeException;
 import lt.refactory.primsAlgo.graph.exception.AddNodeException;
 import lt.refactory.primsAlgo.graph.exception.RemoveNodeException;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
