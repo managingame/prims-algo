@@ -20,7 +20,6 @@ public class PrimsAlgoService {
 		return result;
 	}
 	
-	
 	public static Graph<WeightedEdge> getSmallestTreeWithOnePoint(Graph<WeightedEdge> graph) {
 		
 		// will be used for graph size difference calculations
@@ -29,14 +28,14 @@ public class PrimsAlgoService {
 		Graph<WeightedEdge> smallestTree = new Graph<WeightedEdge>(smallestTreeFull);
 		
 		// result graph
-		Graph<WeightedEdge> smallestTreeWithSteinersPoint = null;
+		Graph<WeightedEdge> smallestTreeWithSteinersPoint = new Graph<WeightedEdge>(graph);
 		BigDecimal biggestDifference = BigDecimal.ZERO;
 		try {
 			
 			while (smallestTree.getEdgeListSize() > 1) {
 				WeightedEdge leave = SteinersAlgorithm.getGraphLeave(smallestTree);
 				WeightedEdge nearEdge = smallestTree.getNearEdges(leave).get(0);	// leave always have one near edge
-				BigDecimal angleBetweenEdges = SteinersAlgorithm.getAgleBetweenTwoEdges(leave, nearEdge);
+				BigDecimal angleBetweenEdges = SteinersAlgorithm.getAngleBetweenTwoEdges(leave, nearEdge);
 				
 				if (angleBetweenEdges.compareTo(BigDecimal.valueOf(120)) == -1) {
 					// Torichelli procedure for steiners point:
