@@ -76,7 +76,7 @@ public class Edge {
 				return false;
 		}
 		if (start.equals(other.start) && end.equals(other.end)
-				|| start.equals(other.end) || end.equals(other.start)) {
+				|| start.equals(other.end) && end.equals(other.start)) {
 			return true;
 		} else {
 			return false;

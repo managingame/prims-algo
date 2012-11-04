@@ -38,7 +38,7 @@ public class Graph<T extends Edge> {
 			result.addAllNodes(nodeList);
 
 			for (int i = 0; i < nodeList.size(); i++) {
-				for (int j = 0; j < nodeList.size(); j++) {
+				for (int j = i+1; j < nodeList.size(); j++) {
 					Node firstNode = nodeList.get(i);
 					Node secondNode = nodeList.get(j);
 					result.addEdge((T) new Edge(firstNode, secondNode));
@@ -89,8 +89,19 @@ public class Graph<T extends Edge> {
 		if (!nodeList.contains(edge.getStart()) || !nodeList.contains(edge.getEnd())){
 			throw new AddEdgeException("Nodes at start or end of the edge does not exist");
 		}
-		System.out.println(edge.hashCode());
 		edgeList.add(edge);
+	}
+	
+	/**
+	 * Adds new edge to graph.
+	 * @param edge
+	 * @throws AddEdgeException 
+	 */
+	@SuppressWarnings("unchecked")
+	public void addEdge(Node nodeA,Node nodeB) throws AddEdgeException {
+		nodeList.add(nodeA);
+		nodeList.add(nodeB);
+		edgeList.add((T) new Edge(nodeA,nodeB));
 	}
 	
 	/**
