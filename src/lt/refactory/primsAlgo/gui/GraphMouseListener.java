@@ -12,9 +12,8 @@ import lt.refactory.primsAlgo.graph.exception.AddNodeException;
 
 public class GraphMouseListener implements MouseListener {
 	private Graph<Edge> graph ;
-	
-	
 	public final static int GAP = 15;
+	
 	
 	BigDecimal x;
 	BigDecimal y;
@@ -96,16 +95,17 @@ public class GraphMouseListener implements MouseListener {
 			if(isNear(node,newNode))
 			{
 				x = node.getPointX();
-				y = node.getPointY();
-				
+				y = node.getPointY();	
 			}
 		}
+		
 		try {
 			graph.addNode(new Node(x, y));
 		} catch (AddNodeException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
 		try {
 			panel.AddPoint(x,y);
 		} catch (AddNodeException e1) {
