@@ -12,8 +12,6 @@ package lt.refactory.primsAlgo.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -40,69 +38,75 @@ public class GraphPanel extends javax.swing.JFrame   {
 
 	private Graph<Edge> graph ;
 	
-    /**
-	 * 
-	 */
 	int x , y = -1;
-
-	private JButton jButton3;
+	
 	private static final long serialVersionUID = 1L;
+	
+	
+	
+	// GUI Variables declaration - do not modify
+    private javax.swing.JButton emptyButton;
+    private javax.swing.JButton steinerButton;
+    private JButton graphContructionButton;
+    
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private JPanel jPanel1;
+    private javax.swing.JProgressBar jProgressBar1;
+    private GraphMouseListener graphMouseListener;
+    private GraphMouseMotionListener graphMouseMotionListener;
+    private buttonController buttonsController;
+    // End of variables declaration
+	
 	/** Creates new form GraphPanel 
 	 * @throws AddNodeException */
     public GraphPanel() throws AddNodeException {
-    	
+  	
     	graph = new Graph<Edge>();
     	
-    	
         initComponents();
-        jProgressBar1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        jPanel1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        
     }
     
-
+    // Creates all Buttons and other gui components .also add listeners to them .
     private void initComponents() {
         jProgressBar1 = new javax.swing.JProgressBar();
         jPanel1 = new JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        emptyButton = new javax.swing.JButton();
+        steinerButton = new javax.swing.JButton();
+        graphContructionButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         graphMouseListener = new GraphMouseListener(this);
         graphMouseMotionListener = new GraphMouseMotionListener(this);
+        buttonsController = new buttonController(this);
+        
         jPanel1.setBackground(Color.WHITE);
         jPanel1.addMouseListener(graphMouseListener);
         jPanel1.addMouseMotionListener(graphMouseMotionListener);
+        
 			
 			
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
-					jButton1ActionPerformed(evt);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-            }
-        });
+        jProgressBar1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        jPanel1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        
+        emptyButton.setText("Dar nenuspresta");
+        emptyButton.addActionListener(buttonsController);
 
-        jButton2.setText("Rasti Šteinerio tašką ");
-        jButton3.setText("Konstruoti pilnaji grafa");
-        jButton3.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				List<Node> nodeList = graph.getNodeList();
-				graph = Graph.fullGraphFactory(nodeList);		
-				repaint();
-					
-			}
-		});
+        steinerButton.setText("Rasti Šteinerio tašką");
+        steinerButton.addActionListener(buttonsController);
+      
+        
+        graphContructionButton.setText("Konstruoti pilnaji grafa");
+        graphContructionButton.addActionListener(buttonsController);
 
+        
         jMenu1.setText("File");
         jMenu1.add(new JMenuItem("Skaityti iš failo"));
         jMenu1.add(new JMenuItem("Eksportuoti į failą"));
@@ -124,9 +128,9 @@ public class GraphPanel extends javax.swing.JFrame   {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-                    .addComponent(jButton3, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
+                    .addComponent(steinerButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(emptyButton, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+                    .addComponent(graphContructionButton, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
                 .addContainerGap())
@@ -137,10 +141,10 @@ public class GraphPanel extends javax.swing.JFrame   {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(emptyButton)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
-                        .addComponent(jButton3))
+                        .addComponent(steinerButton)
+                        .addComponent(graphContructionButton))
                     .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jProgressBar1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -149,21 +153,42 @@ public class GraphPanel extends javax.swing.JFrame   {
         pack();
     }
     
-    @SuppressWarnings("unused")
+    
+	protected void ActivateSteinerMethod() {
+		// TODO Implement Method for activating Steiner algorithm
+			
+	}
+	
+	
+	protected void BuildFullGraph()
+	{
+		List<Node> nodeList = graph.getNodeList();		
+		graph =  Graph.fullGraphFactory(nodeList);
+		
+		repaint();
+	}
+	protected void Additional()
+	{
+		repaint();
+        jProgressBar1.setBackground(Color.BLUE);
+        jProgressBar1.setForeground(Color.BLACK);
+        jProgressBar1.setStringPainted(true);
+        jProgressBar1.setToolTipText("Mighty and powerfull status bar");
+        jProgressBar1.setMinimum(0); 
+        jProgressBar1.setMaximum(10); 
+        jProgressBar1.setString("Finished");
+        paintComponents(getGraphics());
+	}
+	
 	@Override
     public void paint(Graphics g) {
     	super.paint(g);
     	jPanel1.setOpaque(true);
-    	
-    	
     	g.setColor(Color.BLACK);
-    	int i=0;
+    	
     	
 	    	for (Node point : graph.getNodeList())
 	    	{
-	    		
-	    		
-	    		
 	    		
 	    		g.drawString(point.getPointX()+":"+point.getPointY(),point.getPointX().intValue()-4, point.getPointY().intValue()-6);
 	    		g.fillOval(point.getPointX().intValue(), point.getPointY().intValue(), 10, 10);
@@ -179,46 +204,22 @@ public class GraphPanel extends javax.swing.JFrame   {
 	    		
 	    	}
 	    	
-    	
-    	
-    	
     }
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws InterruptedException {
-        repaint();
-        jProgressBar1.setBackground(Color.BLUE);
-        jProgressBar1.setForeground(Color.BLACK);
-        jProgressBar1.setStringPainted(true);
-        jProgressBar1.setToolTipText("Mighty and powerfull status bar");
-        jProgressBar1.setMinimum(0); 
-        jProgressBar1.setMaximum(10); 
-        jProgressBar1.setString("Finished");
-        paintComponents(getGraphics());
-    }
+	
+  
+    
+    
+	
+	// Adding point to graph
     public void AddPoint(BigDecimal x,BigDecimal y) throws AddNodeException
-    {
-    	
+    {   	
     	Node node = new Node(x, y);
 		graph.addNode(node);
-		
-		
 		repaint();
     }
     
-   /* public void AddPoint(List<Integer> point) {
-		
-		pointList.add((ArrayList<Integer>) point);
-	}*/
-    
-   /* public void AddEdge(int x1 , int y1 , int x2 ,int y2){
-    	List<Integer> edge = new ArrayList<>();
-    	edge.add(x1);
-    	edge.add(y1);
-    	edge.add(x2);
-    	edge.add(y2);
-    	edgeList.add((ArrayList<Integer>) edge);
-    	repaint();
-    }*/
+  
     /**
      * @param args the command line arguments
      */
@@ -242,18 +243,7 @@ public class GraphPanel extends javax.swing.JFrame   {
             }
         });
     }
-    // Variables declaration - do not modify
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenuBar jMenuBar1;
-    private JPanel jPanel1;
-    private javax.swing.JProgressBar jProgressBar1;
-    private GraphMouseListener graphMouseListener;
-    private GraphMouseMotionListener graphMouseMotionListener;
-    // End of variables declaration
+    
     
 	
 	
