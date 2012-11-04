@@ -40,17 +40,17 @@ public class SteinersAlgorithmTest {
 			
 			Edge firstEdge = objectsProvider.getEdge(0, 0, 0, 5);
 			Edge secondEdge = objectsProvider.getEdge(0, 0, 3, 0);
-			BigDecimal angle = SteinersAlgorithm.getAgleBetweenTwoEdges(firstEdge, secondEdge);
+			BigDecimal angle = SteinersAlgorithm.getAngleBetweenTwoEdges(firstEdge, secondEdge);
 			assertTrue(angle.compareTo(BigDecimal.valueOf(90)) == 0);
 			
 			firstEdge = objectsProvider.getEdge(0, 0, 0, 5);
 			secondEdge = objectsProvider.getEdge(0, 5, 0, 8);
-			angle = SteinersAlgorithm.getAgleBetweenTwoEdges(firstEdge, secondEdge);
+			angle = SteinersAlgorithm.getAngleBetweenTwoEdges(firstEdge, secondEdge);
 			assertTrue(angle.compareTo(BigDecimal.valueOf(180)) == 0);
 			
 			firstEdge = objectsProvider.getEdge(0, 0, 0, 5);
 			secondEdge = objectsProvider.getEdge(0, 0, 3, 3);
-			angle = SteinersAlgorithm.getAgleBetweenTwoEdges(firstEdge, secondEdge);
+			angle = SteinersAlgorithm.getAngleBetweenTwoEdges(firstEdge, secondEdge);
 			assertTrue(angle.compareTo(BigDecimal.valueOf(45)) == 0);
 			
 		} catch (AlgorithmException e) {

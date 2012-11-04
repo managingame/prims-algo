@@ -36,7 +36,7 @@ public class SteinersAlgorithm {
 		throw new AlgorithmException("Leave was not found in given graph");
 	}
 	
-	public static <T extends Edge> BigDecimal getAgleBetweenTwoEdges(T edge1, T edge2) throws AlgorithmException {
+	public static <T extends Edge> BigDecimal getAngleBetweenTwoEdges(T edge1, T edge2) throws AlgorithmException {
 		//checking if edges have common point
 		if (SteinersAlgorithm.getCommonPoint(edge1, edge2) != null) {
 			// find first vector value
@@ -58,6 +58,7 @@ public class SteinersAlgorithm {
 					.add(firstVector.getPointY().multiply(secondVector.getPointY()));
 
 			double result = Math.acos(vectorMultiplication.divide(scalarMultiplication, DIVISION_PRECISION, ROUNDING_MODE).doubleValue());
+			result = Math.round(result);
 			
 			if (result == 0) {
 				return BigDecimal.valueOf(180);
