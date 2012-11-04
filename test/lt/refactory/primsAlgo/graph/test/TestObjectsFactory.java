@@ -12,13 +12,13 @@ import lt.refactory.primsAlgo.graph.Node;
 		 
 		
 		public enum enumNode{
-				A(new Node(BigDecimal.valueOf(1),BigDecimal.valueOf(1))),
-				B(new Node(BigDecimal.valueOf(2),BigDecimal.valueOf(2))),
-				C(new Node(BigDecimal.valueOf(3),BigDecimal.valueOf(3))),
-				D(new Node(BigDecimal.valueOf(4),BigDecimal.valueOf(4))),
-				E(new Node(BigDecimal.valueOf(5),BigDecimal.valueOf(5))),
-				F(new Node(BigDecimal.valueOf(6),BigDecimal.valueOf(6))),
-				G(new Node(BigDecimal.valueOf(7),BigDecimal.valueOf(7))),
+				A(new Node(BigDecimal.valueOf(3),BigDecimal.valueOf(1))),
+				B(new Node(BigDecimal.valueOf(-2),BigDecimal.valueOf(4))),
+				C(new Node(BigDecimal.valueOf(3),BigDecimal.valueOf(7))),
+				D(new Node(BigDecimal.valueOf(8),BigDecimal.valueOf(4))),
+				E(new Node(BigDecimal.valueOf(10),BigDecimal.valueOf(13))),
+				F(new Node(BigDecimal.valueOf(6),BigDecimal.valueOf(-6))),
+				G(new Node(BigDecimal.valueOf(-17),BigDecimal.valueOf(7))),
 				H(new Node(pointsToXArray[0],pointsToXArray[0])),
 				I(new Node(pointsToXArray[0],pointsToXArray[0])),
 				J(new Node(pointsToXArray[0],pointsToXArray[0]));
