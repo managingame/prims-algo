@@ -10,6 +10,7 @@ import lt.refactory.primsAlgo.graph.Edge;
 import lt.refactory.primsAlgo.graph.Graph;
 import lt.refactory.primsAlgo.graph.Node;
 import lt.refactory.primsAlgo.graph.WeightedEdge;
+import lt.refactory.primsAlgo.graph.enums.NodeType;
 import lt.refactory.primsAlgo.graph.exception.AddEdgeException;
 import lt.refactory.primsAlgo.service.algorithm.exceptions.AlgorithmException;
 import lt.refactory.primsAlgo.service.algorithm.models.Circle;
@@ -22,18 +23,20 @@ import lt.refactory.primsAlgo.service.algorithm.models.LinearFunctionParameters;
  */
 public class SteinersAlgorithm {
 	
-	public static final int DIVISION_PRECISION = 5;
-	public static final int ROUNDING_PRECISION = 2;
-	public static final RoundingMode ROUNDING_MODE = RoundingMode.FLOOR;
+	public static final int DIVISION_PRECISION = 3;
+	public static final int ROUNDING_PRECISION = 3;
+	public static final RoundingMode ROUNDING_MODE = RoundingMode.HALF_EVEN;
 	
-	public static <T extends Edge> T getGraphLeave(Graph<T> graph) throws AlgorithmException {
+	public static <T extends Edge> T getGraphLeave(Graph<T> graph){
 		for (T edge : graph.getEdgeList()) {
-			List<T> edges = graph.getNearEdges(edge);
-			if (edges.size() == 1) {
+			List<Node> firstNearNodes = graph.getNearNodes(edge.getStart());
+			List<Node> secondNearNodes = graph.getNearNodes(edge.getEnd());
+
+			if (firstNearNodes.size() == 1 || secondNearNodes.size() == 1) {
 				return edge;
 			}
 		}
-		throw new AlgorithmException("Leave was not found in given graph");
+		return null;
 	}
 	
 	public static <T extends Edge> BigDecimal getAngleBetweenTwoEdges(T edge1, T edge2) throws AlgorithmException {
@@ -58,7 +61,6 @@ public class SteinersAlgorithm {
 					.add(firstVector.getPointY().multiply(secondVector.getPointY()));
 
 			double result = Math.acos(vectorMultiplication.divide(scalarMultiplication, DIVISION_PRECISION, ROUNDING_MODE).doubleValue());
-			result = Math.round(result);
 			
 			if (result == 0) {
 				return BigDecimal.valueOf(180);
@@ -356,8 +358,8 @@ public class SteinersAlgorithm {
 				.multiply(x2)
 				.add(edgeParameters.getB());
 		
-		Node firstPoint = new Node(x1, y1);
-		Node secondPoint = new Node(x2, y2);
+		Node firstPoint = new Node(x1, y1, NodeType.STEINER);
+		Node secondPoint = new Node(x2, y2, NodeType.STEINER);
 		
 		BigDecimal startComparer = firstPoint.getPointX().subtract(edge.getStart().getPointX()).abs();
 		BigDecimal endComparer = firstPoint.getPointX().subtract(edge.getEnd().getPointX()).abs();
@@ -374,8 +376,9 @@ public class SteinersAlgorithm {
 		}
 	}
 	
-	public static Graph<WeightedEdge> changeGraphEdges(Graph<WeightedEdge> currentGraph, WeightedEdge edge, WeightedEdge nearEdge, Node steinerPoint){
+	public static Graph<WeightedEdge> changeGraphEdges(Graph<WeightedEdge> graphToChange, WeightedEdge edge, WeightedEdge nearEdge, Node steinerPoint){
 		Node commonPoint = getCommonPoint(edge, nearEdge);
+		Graph<WeightedEdge> currentGraph = new Graph<WeightedEdge>(graphToChange);
 		
 		// remove old edges
 		currentGraph.removeEdge(edge);
@@ -430,9 +433,10 @@ public class SteinersAlgorithm {
 	
 	public static BigDecimal getGraphLength(Graph<WeightedEdge> graph) {
 		BigDecimal result = BigDecimal.ZERO;
+		result.setScale(ROUNDING_PRECISION);
 		
 		for (WeightedEdge edge : graph.getEdgeList()) {
-			result.add(edge.getWeight());
+			result = result.add(edge.getWeight(), new MathContext(ROUNDING_PRECISION, ROUNDING_MODE));
 		}
 		return result;
 	}

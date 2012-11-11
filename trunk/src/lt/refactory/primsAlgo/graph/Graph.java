@@ -7,6 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import lt.refactory.primsAlgo.graph.enums.NodeType;
 import lt.refactory.primsAlgo.graph.exception.AddEdgeException;
 import lt.refactory.primsAlgo.graph.exception.AddNodeException;
 import lt.refactory.primsAlgo.graph.exception.RemoveNodeException;
@@ -78,7 +79,6 @@ public class Graph<T extends Edge> {
 		nodeList.remove(node);
 	}
 		
-	
 	/**
 	 * Adds new edge to graph. You can't add new edge when:
 	 * <li>Edge start or end points does not exist in graph</li>
@@ -180,7 +180,6 @@ public class Graph<T extends Edge> {
 		// remove the edge itself
 		result.remove(edge);
 		return new ArrayList<T>(result);
-		
 	}
 	
 	public List<Node> getNearNodes(Node node) {
@@ -210,5 +209,13 @@ public class Graph<T extends Edge> {
 		nodeList.clear();
 		edgeList.clear();
 	}
-
+	
+	public Node getSteinersPoint() {
+		for (Node node : getNodeList()) {
+			if (node.getNodeType() == NodeType.STEINER) {
+				return node;
+			}
+		}
+		return null;
+	}
 }
