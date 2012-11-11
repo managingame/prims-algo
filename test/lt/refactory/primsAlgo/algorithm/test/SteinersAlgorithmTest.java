@@ -24,13 +24,10 @@ public class SteinersAlgorithmTest {
 		Graph<Edge> graph = objectsProvider.getTreeGraph();
 		Edge leave = null;
 		
-		try {
-			leave = SteinersAlgorithm.getGraphLeave(graph);
-		} catch (AlgorithmException e) {
-			fail("Algorithm exception thrown");
-		}
+		leave = SteinersAlgorithm.getGraphLeave(graph);
 		
-		assertTrue(graph.getNearEdges(leave).size() == 1);
+		assertTrue(leave != null);
+		assertTrue(graph.getNearNodes(leave.getStart()).size() == 1 || graph.getNearNodes(leave.getEnd()).size() == 1);
 	}
 	
 	@Test

@@ -2,22 +2,19 @@ package lt.refactory.primsAlgo.graph;
 
 import java.math.BigDecimal;
 
+import lt.refactory.primsAlgo.graph.enums.NodeType;
+
 /**
  * Point class for saving point coordinates in x and y coordinate system.
- * @author arminas
+ * @author arminas, osvaldas
  *
  */
-enum NodeType{
-	NORMAL,STEINER
-}
 public class Node {
 	private final BigDecimal pointX;
 	private final BigDecimal pointY;
 	private final String name;
 	private final NodeType nodeType;
-	
-	
-	
+
 	public Node(BigDecimal pointX, BigDecimal pointY, String name) {
 		super();
 		this.pointX = pointX;
@@ -32,6 +29,14 @@ public class Node {
 		this.pointY = pointY;
 		this.name = "";
 		this.nodeType = NodeType.NORMAL;
+	}
+	
+	public Node(BigDecimal pointX, BigDecimal pointY, NodeType type) {
+		super();
+		this.pointX = pointX;
+		this.pointY = pointY;
+		this.name = "";
+		this.nodeType = type;
 	}
 	
 	public BigDecimal getPointX() {
@@ -78,12 +83,8 @@ public class Node {
 		return true;
 	}
 	
-
 	@Override
 	public String toString() {
-		return "Node [pointX=" + pointX + ", pointY=" + pointY + ", name="
-				+ name + "]";
+		return "Node [pointX=" + pointX + ", pointY=" + pointY + ", name=" + name + ", type=" + nodeType + "]";
 	}
-
-	
 }

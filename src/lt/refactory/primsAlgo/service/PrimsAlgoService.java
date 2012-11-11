@@ -13,13 +13,6 @@ import lt.refactory.primsAlgo.service.algorithm.models.Circle;
 
 public class PrimsAlgoService {
 	
-	public static Graph<WeightedEdge> getResult(Graph<WeightedEdge> graph){
-		Graph<WeightedEdge> result = PrimsAlgorithm.solve(graph);
-		result = getSmallestTreeWithOnePoint(graph);
-		
-		return result;
-	}
-	
 	public static Graph<WeightedEdge> getSmallestTreeWithOnePoint(Graph<WeightedEdge> graph) {
 		
 		// will be used for graph size difference calculations
@@ -34,6 +27,12 @@ public class PrimsAlgoService {
 			
 			while (smallestTree.getEdgeListSize() > 1) {
 				WeightedEdge leave = SteinersAlgorithm.getGraphLeave(smallestTree);
+				
+				// if no more leaves are in graph return result
+				if (leave == null) {
+					return smallestTreeWithSteinersPoint;
+				}
+				
 				WeightedEdge nearEdge = smallestTree.getNearEdges(leave).get(0);	// leave always have one near edge
 				BigDecimal angleBetweenEdges = SteinersAlgorithm.getAngleBetweenTwoEdges(leave, nearEdge);
 				
@@ -46,16 +45,15 @@ public class PrimsAlgoService {
 					Node steinersPoint = SteinersAlgorithm.getSteinersPoint(edgeThroughTriangles, circumscribedCircle);
 					
 					// Calculate how much graph is shorter than initial graph
-					Graph<WeightedEdge> newTree = SteinersAlgorithm.changeGraphEdges(smallestTreeFull, leave, nearEdge, steinersPoint);
-					BigDecimal lengthDifference = SteinersAlgorithm.calculateGraphLengthsDifference(smallestTreeFull, newTree);
+					Graph<WeightedEdge> changedGraph = SteinersAlgorithm.changeGraphEdges(smallestTreeFull, leave, nearEdge, steinersPoint);
+					BigDecimal lengthDifference = SteinersAlgorithm.calculateGraphLengthsDifference(smallestTreeFull, changedGraph);
 					
 					if (lengthDifference.compareTo(biggestDifference) == 1) {
-						smallestTreeWithSteinersPoint = new Graph<WeightedEdge>(newTree);
-						biggestDifference = lengthDifference;	// TODO : make sure if value, not value
+						smallestTreeWithSteinersPoint = new Graph<WeightedEdge>(changedGraph);
+						biggestDifference = lengthDifference;
 					}
-				} else {
-					smallestTree.removeEdge(leave);
 				}
+				smallestTree.removeEdge(leave);
 			}
 		} catch (AlgorithmException e) {
 			e.printStackTrace();
