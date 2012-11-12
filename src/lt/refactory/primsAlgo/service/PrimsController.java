@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import lt.refactory.primsAlgo.graph.Graph;
 import lt.refactory.primsAlgo.graph.Node;
 import lt.refactory.primsAlgo.graph.WeightedEdge;
+import lt.refactory.primsAlgo.graph.enums.NodeType;
 import lt.refactory.primsAlgo.graph.exception.AddNodeException;
 import lt.refactory.primsAlgo.service.algorithm.PrimsAlgorithm;
 
@@ -31,7 +32,7 @@ public class PrimsController {
 		}
 		Node nodeToRemove = null;
 		for (Node node : graph.getNodeList()){
-			if (node.getNodeType() == Node.NodeType.STEINER){
+			if (node.getNodeType() == NodeType.STEINER){
 				nodeToRemove = node;
 			}
 		}
@@ -41,7 +42,7 @@ public class PrimsController {
 		try {
 			graph.addNode(new Node(BigDecimal.valueOf(350),
 					BigDecimal.valueOf(350),
-					"STEINERIO",Node.NodeType.STEINER));
+					"STEINERIO",NodeType.STEINER));
 		} catch (AddNodeException e) {
 			e.printStackTrace();
 		}

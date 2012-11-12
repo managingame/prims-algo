@@ -11,9 +11,7 @@ import lt.refactory.primsAlgo.graph.enums.NodeType;
  */
 
 public class Node {
-	public enum NodeType{
-		NORMAL,STEINER
-	}
+
 	
 	private final BigDecimal pointX;
 	private final BigDecimal pointY;
