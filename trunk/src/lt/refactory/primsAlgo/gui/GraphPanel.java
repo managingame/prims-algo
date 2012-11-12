@@ -27,8 +27,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
-import javax.swing.Popup;
-import javax.swing.PopupFactory;
 import javax.swing.UIManager;
 
 import lt.refactory.primsAlgo.graph.Graph;

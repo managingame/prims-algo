@@ -10,9 +10,7 @@ import lt.refactory.primsAlgo.graph.Edge;
 import lt.refactory.primsAlgo.graph.Graph;
 import lt.refactory.primsAlgo.graph.Node;
 import lt.refactory.primsAlgo.graph.WeightedEdge;
-import lt.refactory.primsAlgo.graph.test.TestObjectsFactory;
 import lt.refactory.primsAlgo.service.PrimsAlgoService;
-import lt.refactory.primsAlgo.service.algorithm.PrimsAlgorithm;
 import lt.refactory.primsAlgo.service.algorithm.SteinersAlgorithm;
 
 import org.junit.Test;

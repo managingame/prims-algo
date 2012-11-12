@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import lt.refactory.primsAlgo.graph.Edge;
 import lt.refactory.primsAlgo.graph.Node;
+import lt.refactory.primsAlgo.graph.enums.NodeType;
 import lt.refactory.primsAlgo.service.PrimsController;
 
 public class DrawingPanel extends JPanel {
@@ -39,7 +40,7 @@ public class DrawingPanel extends JPanel {
 			g.fillOval(point.getPointX().intValue(), point.getPointY()
 					.intValue(), 10, 10);
 			g.setColor(Color.RED);
-			if (point.getNodeType() == Node.NodeType.STEINER){
+			if (point.getNodeType() == NodeType.STEINER){
 				g.setColor(Color.GREEN);
 			}
 			g.fillOval(point.getPointX().intValue() + 3, point.getPointY()
