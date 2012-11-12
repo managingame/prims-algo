@@ -247,4 +247,18 @@ public class SteinersAlgorithmTest {
 			fail("Algorithm exception thrown");
 		}
 	}
+	
+	@Test
+	public void testLengths() {
+		Edge firstEdge = new Edge(new Node(BigDecimal.valueOf(2), BigDecimal.valueOf(2)), 
+				new Node(BigDecimal.valueOf(6), BigDecimal.valueOf(6)));
+		
+		Edge secondEdge = new Edge(new Node(BigDecimal.valueOf(2), BigDecimal.valueOf(2)), 
+				new Node(BigDecimal.valueOf(7), BigDecimal.valueOf(4)));
+		
+		BigDecimal firstWeight = SteinersAlgorithm.getEdgeLength(firstEdge);
+		BigDecimal secondWeight = SteinersAlgorithm.getEdgeLength(secondEdge);
+		
+		assertTrue(firstWeight.compareTo(secondWeight) == 1);
+	}
 }
