@@ -9,7 +9,12 @@ import lt.refactory.primsAlgo.graph.enums.NodeType;
  * @author arminas, osvaldas
  *
  */
+
 public class Node {
+	public enum NodeType{
+		NORMAL,STEINER
+	}
+	
 	private final BigDecimal pointX;
 	private final BigDecimal pointY;
 	private final String name;
@@ -23,6 +28,19 @@ public class Node {
 		this.nodeType = NodeType.NORMAL;
 	}
 	
+	
+	
+	public Node(BigDecimal pointX, BigDecimal pointY, String name,
+			NodeType nodeType) {
+		super();
+		this.pointX = pointX;
+		this.pointY = pointY;
+		this.name = name;
+		this.nodeType = nodeType;
+	}
+
+
+
 	public Node(BigDecimal pointX, BigDecimal pointY) {
 		super();
 		this.pointX = pointX;

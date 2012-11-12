@@ -13,6 +13,13 @@ import lt.refactory.primsAlgo.service.algorithm.models.Circle;
 
 public class PrimsAlgoService {
 	
+	public static Graph<WeightedEdge> getResult(Graph<WeightedEdge> graph){
+		Graph<WeightedEdge> result = PrimsAlgorithm.solve(graph);
+		//result = getSmallestTreeWithOnePoint(graph);
+		
+		return result;
+	}
+	
 	public static Graph<WeightedEdge> getSmallestTreeWithOnePoint(Graph<WeightedEdge> graph) {
 		
 		// will be used for graph size difference calculations

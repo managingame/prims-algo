@@ -3,6 +3,7 @@ package lt.refactory.primsAlgo.graph;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -78,7 +79,22 @@ public class Graph<T extends Edge> {
 		}
 		nodeList.remove(node);
 	}
+	
+	public void removeAll(List<T> egdeToRemoveList){
+		T currentEdge = null;
+		for(Iterator<T> it = edgeList.iterator(); it.hasNext(); currentEdge = it.next()){
+			if (egdeToRemoveList.contains(currentEdge)){
+				it.remove();
+			}
+		}
+	}
 		
+	public void removeNodeWithEdges(Node node){
+		List<T> nearEdgeList = getNearEdges(node);
+		removeAll(nearEdgeList);
+		nodeList.remove(node);
+	}
+	
 	/**
 	 * Adds new edge to graph. You can't add new edge when:
 	 * <li>Edge start or end points does not exist in graph</li>
