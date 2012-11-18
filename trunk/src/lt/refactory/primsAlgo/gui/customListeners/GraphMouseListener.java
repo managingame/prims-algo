@@ -49,7 +49,7 @@ public class GraphMouseListener extends MouseAdapter {
 		}
 		
 		if (solveOnClick.isSelected()) {
-			controller.solvePrimsAlgorithm();
+			controller.solvePrimsAlgorithm(true);
 		}
 
 	}

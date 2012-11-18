@@ -104,7 +104,7 @@ public class GraphPanel extends javax.swing.JFrame   {
 			}
 		});
 
-        graphMouseListener = new GraphMouseListener(this,controller,solveOnClickCheckbox);
+        graphMouseListener = new GraphMouseListener(this, controller, solveOnClickCheckbox);
         
         jPanel1.setBackground(Color.WHITE);
         jPanel1.addMouseListener(graphMouseListener);
@@ -124,20 +124,27 @@ public class GraphPanel extends javax.swing.JFrame   {
 			}
 		});
 
-        steinerButton.setText("Rasti Steinerio taska");
+        steinerButton.setText("Trumpiausias grafas be tarpinių tašku");
         
         steinerButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controller.solvePrimsAlgorithm();
+				controller.solvePrimsAlgorithm(false);
 				jPanel1.repaint();
 			}
 		});
-      
         
-        graphContructionButton.setText("Kazkas");
-
+        graphContructionButton.setText("Trumpiausias grafas su vienu tašku");
+        
+        graphContructionButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.solvePrimsAlgorithm(true);
+				jPanel1.repaint();
+			}
+		});
         
         jMenu1.setText("File");
         jMenu1.add(new JMenuItem("Skaityti is failo"));
