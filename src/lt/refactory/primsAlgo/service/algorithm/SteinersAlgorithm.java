@@ -376,7 +376,7 @@ public class SteinersAlgorithm {
 		}
 	}
 	
-	public static Graph<WeightedEdge> changeGraphEdges(Graph<WeightedEdge> graphToChange, WeightedEdge edge, WeightedEdge nearEdge, Node steinerPoint){
+	public static Graph<WeightedEdge> changeGraphEdges(Graph<WeightedEdge> graphToChange, WeightedEdge edge, WeightedEdge nearEdge, Node steinerPoint) {
 		Node commonPoint = getCommonPoint(edge, nearEdge);
 		Graph<WeightedEdge> currentGraph = new Graph<WeightedEdge>(graphToChange);
 		

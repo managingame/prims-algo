@@ -1,6 +1,8 @@
 package lt.refactory.primsAlgo.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import lt.refactory.primsAlgo.graph.Graph;
 import lt.refactory.primsAlgo.graph.Node;
@@ -30,24 +32,30 @@ public class PrimsController {
 		graph.addNode(node);
 	}
 	
-	public void solvePrimsAlgorithm() {
+	public void solvePrimsAlgorithm(boolean withOnePoint) {
 		if (graph.getNodeListSize() < 2){
 			return;
 		}
-		Node nodeToRemove = null;
+		
+		List<Node> nodesToRemove = new ArrayList<Node>();
 		for (Node node : graph.getNodeList()){
 			if (node.getNodeType() == NodeType.STEINER){
-				nodeToRemove = node;
+				nodesToRemove.add(node);
 			}
 		}
 		
-		if (nodeToRemove != null) {
-			graph.removeNodeWithEdges(nodeToRemove);
+		for (Node node : nodesToRemove) {
+			graph.removeNodeWithEdges(node);
 		}
 		
 		graph = Graph.<WeightedEdge>fullGraphFactory(graph.getNodeList());
 		graph = PrimsAlgorithm.convertLengthToWeight(graph);
-		graph = getSmallestTreeWithOnePoint(graph);
+		
+		if (withOnePoint) {
+			graph = getSmallestTreeWithOnePoint(graph);
+		} else {
+			graph = PrimsAlgorithm.solve(graph);
+		}
 	}
 
 	public Graph<WeightedEdge> getGraph() {
