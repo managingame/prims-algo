@@ -13,8 +13,9 @@ package lt.refactory.primsAlgo.gui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import javax.swing.BorderFactory;
@@ -22,16 +23,19 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
 import javax.swing.UIManager;
 
 import lt.refactory.primsAlgo.graph.Graph;
 import lt.refactory.primsAlgo.graph.WeightedEdge;
+import lt.refactory.primsAlgo.graph.exception.AddEdgeException;
+import lt.refactory.primsAlgo.graph.exception.AddNodeException;
 import lt.refactory.primsAlgo.gui.customListeners.GraphMouseListener;
+import lt.refactory.primsAlgo.service.FileController;
 import lt.refactory.primsAlgo.service.PrimsController;
 
 
@@ -45,8 +49,13 @@ public class GraphPanel extends javax.swing.JFrame   {
 
 
 
+	protected static final String SPECIALSEPARATOR = ".";
+
+
+
 	private Graph<WeightedEdge> graph;
 	private PrimsController controller;
+	private FileController fileController;
 	int x , y = -1;
 	
 	// GUI Variables declaration - do not modify
@@ -59,8 +68,13 @@ public class GraphPanel extends javax.swing.JFrame   {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    
+    private javax.swing.JMenuItem openFromFile;
+    private javax.swing.JMenuItem exportToFile;
+    
+    
     private javax.swing.JMenuBar jMenuBar1;
-    private JPanel jPanel1;
+    private DrawingPanel jPanel1;
     private javax.swing.JProgressBar jProgressBar1;
     private GraphMouseListener graphMouseListener;
     
@@ -72,14 +86,15 @@ public class GraphPanel extends javax.swing.JFrame   {
 	public GraphPanel() {
 		graph = new Graph<WeightedEdge>();
 		controller = new PrimsController(graph);
+		fileController = new FileController(controller);
 		initComponents();
 	}
 
     private void initComponents() {
-    	try {
-			properties.load(new FileInputStream("GraphPanel.properties"));
+    	try {     		 
+    		InputStream propertiesFile = this.getClass().getResourceAsStream("GraphPanel.properties");
+			properties.load(propertiesFile);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
         jProgressBar1 = new javax.swing.JProgressBar();
@@ -91,6 +106,11 @@ public class GraphPanel extends javax.swing.JFrame   {
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
+        
+        openFromFile = new JMenuItem("Skaityti iš failo");
+        
+        exportToFile = new JMenuItem("Išsaugoti faile");
+        
         
         solveOnClickCheckbox = new JCheckBox();
         solveOnClickCheckbox.addActionListener(new ActionListener() {
@@ -135,7 +155,70 @@ public class GraphPanel extends javax.swing.JFrame   {
 			}
 		});
         
+
+        
+        openFromFile.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
+				fileChooser.setMultiSelectionEnabled(true);
+				int returnVal = fileChooser.showOpenDialog(GraphPanel.this);
+				
+				if (returnVal == JFileChooser.APPROVE_OPTION)
+				{
+					File []files = fileChooser.getSelectedFiles();				
+					try {
+						fileController.readFromFile(files);
+					} catch (IOException | NumberFormatException | AddNodeException | AddEdgeException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					repaint();
+				}
+			
+				
+				
+			}
+		});
+        
+        exportToFile.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
+				
+				int returnVal = fileChooser.showDialog(GraphPanel.this, "Save");
+				
+				if (returnVal == JFileChooser.APPROVE_OPTION)
+				{
+					File file = fileChooser.getSelectedFile();
+					try {
+						fileController.exportToFile(file);
+						jProgressBar1.setBackground(Color.RED);
+						jProgressBar1.setStringPainted(true);
+						jProgressBar1.setValue(100);
+								
+					} catch (IOException e) {
+						e.printStackTrace();
+						
+					}
+				}
+				
+			}
+
+			
+		});
+        
+        
+        
+        
+        
+        graphContructionButton.setText("Kazkas");
+
+
         graphContructionButton.setText("Trumpiausias grafas su vienu tašku");
+
         
         graphContructionButton.addActionListener(new ActionListener() {
 			
@@ -147,8 +230,8 @@ public class GraphPanel extends javax.swing.JFrame   {
 		});
         
         jMenu1.setText("File");
-        jMenu1.add(new JMenuItem("Skaityti is failo"));
-        jMenu1.add(new JMenuItem("Eksportuoti i faila"));
+        jMenu1.add(openFromFile);
+        jMenu1.add(exportToFile);
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -204,6 +287,8 @@ public class GraphPanel extends javax.swing.JFrame   {
 
         pack();
     }
+
+	
 
 	/**
 	 * @param args
