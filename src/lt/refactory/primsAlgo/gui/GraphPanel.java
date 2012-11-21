@@ -107,9 +107,9 @@ public class GraphPanel extends javax.swing.JFrame   {
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         
-        openFromFile = new JMenuItem("Skaityti iÅ¡ failo");
+        openFromFile = new JMenuItem("Skaityti ið failo");
         
-        exportToFile = new JMenuItem("IÅ¡saugoti faile");
+        exportToFile = new JMenuItem("Iðsaugoti faile");
         
         
         solveOnClickCheckbox = new JCheckBox();
@@ -124,7 +124,8 @@ public class GraphPanel extends javax.swing.JFrame   {
 			}
 		});
 
-        graphMouseListener = new GraphMouseListener(this, controller, solveOnClickCheckbox);
+        jPanel1.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+        graphMouseListener = new GraphMouseListener(this,controller,solveOnClickCheckbox);
         
         jPanel1.setBackground(Color.WHITE);
         jPanel1.addMouseListener(graphMouseListener);
@@ -144,7 +145,7 @@ public class GraphPanel extends javax.swing.JFrame   {
 			}
 		});
 
-        steinerButton.setText("Trumpiausias grafas be tarpiniÅ³ taÅ¡ku");
+        steinerButton.setText("Trumpiausias grafas be tarpiniø taðku");
         
         steinerButton.addActionListener(new ActionListener() {
 			
@@ -217,7 +218,9 @@ public class GraphPanel extends javax.swing.JFrame   {
         graphContructionButton.setText("Kazkas");
 
 
-        graphContructionButton.setText("Trumpiausias grafas su vienu taÅ¡ku");
+        graphContructionButton.setText("Trumpiausias grafas su vienu taðku");
+        graphContructionButton.addActionListener(new ActionListener() {
+			
 
         
         graphContructionButton.addActionListener(new ActionListener() {

@@ -31,8 +31,8 @@ public class GraphMouseListener extends MouseAdapter {
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
-		BigDecimal x = BigDecimal.valueOf(e.getX()-3);
-		BigDecimal y = BigDecimal.valueOf(e.getY()-3);
+		BigDecimal x = BigDecimal.valueOf(e.getX());
+		BigDecimal y = BigDecimal.valueOf(e.getY());
 		Node newNode = new Node(x,y);
 
 		for (Node node : controller.getGraph().getNodeList()) {

@@ -103,9 +103,9 @@ public class PrimsAlgorithm {
 		BigDecimal y1 = a.getPointY();
 		BigDecimal y2 = b.getPointY();
 
-		double length = Math.sqrt(x2.subtract(x1).pow(2)
-				.add(y1.subtract(y2).pow(2)).doubleValue());
-		return BigDecimal.valueOf(length);
+		BigDecimal length = x2.subtract(x1).pow(2)
+				.add(y1.subtract(y2).pow(2));
+		return length;
 	}
 
 	public static <T extends Edge> boolean hasCycle(Graph<T> graph) {
