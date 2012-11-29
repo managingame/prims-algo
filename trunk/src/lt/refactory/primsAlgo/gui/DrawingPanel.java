@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
 
@@ -17,7 +18,7 @@ public class DrawingPanel extends JPanel {
 	/**
 	 * 
 	 */
-	private static final Font FONTFOREDGEWEIGHT = new Font("Arial", Font.BOLD, 14);
+	private static final Font FONTFOREDGEWEIGHT = new Font("Arial", Font.PLAIN, 12);
 	private static final long serialVersionUID = 1L;
 	private PrimsController controller;
 	
@@ -29,8 +30,23 @@ public class DrawingPanel extends JPanel {
 
 	@Override
 	public void paint(Graphics g) {
+		if (g instanceof Graphics2D) {
+			Graphics2D g2d = (Graphics2D) g;
+
+			// for antialising geometric shapes
+			g2d.addRenderingHints(new RenderingHints(
+					RenderingHints.KEY_ANTIALIASING,
+					RenderingHints.VALUE_ANTIALIAS_ON));
+			// for antialiasing text
+			g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+					RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+			g = g2d;
+		}
 		super.paint(g);
-		Graphics2D g2d ;
+		Graphics2D g2d = (Graphics2D) g.create();
+		drawMarks(g2d);
+
 		g.setColor(Color.BLACK);
 		int middlePointX;
 		int middlePointY;
@@ -40,10 +56,6 @@ public class DrawingPanel extends JPanel {
 			middlePointX = GuiMathTool.MiddlePoint(edge).getPointX().intValue();
 			middlePointY = GuiMathTool.MiddlePoint(edge).getPointY().intValue();
 			
-			
-			g.drawLine(edge.getStart().getPointX().intValue(), edge.getStart()
-					.getPointY().intValue() + 5, edge.getEnd().getPointX()
-					.intValue() + 5, edge.getEnd().getPointY().intValue() + 5);
 			int x1 = edge.getStart().getPointX().intValue();
 			int y1 = edge.getStart().getPointY().intValue();
 			int x2 = edge.getEnd().getPointX().intValue();
@@ -53,9 +65,9 @@ public class DrawingPanel extends JPanel {
 			
 			g2d = (Graphics2D) g.create();
 			g2d.rotate(Math.toRadians(GuiMathTool.Degrees(edge)),middlePointX, middlePointY);
-			g2d.setFont(FONTFOREDGEWEIGHT);
+			//g2d.setFont(FONTFOREDGEWEIGHT);
 		
-			g2d.drawString(GuiMathTool.Weight(edge)+"",middlePointX , middlePointY);
+			//g2d.drawString(GuiMathTool.Weight(edge)+"",middlePointX , middlePointY);
 			g2d.dispose();
 		}
 
@@ -64,30 +76,43 @@ public class DrawingPanel extends JPanel {
 
 			int x = point.getPointX().intValue();
 			int y = point.getPointY().intValue();
-			g.drawString(point.getPointX() + ":" + point.getPointY(), x - 4,
-					y - 6);
+			
+			String xCoord = String.format("%.0f",point.getPointX().doubleValue());
+			String yCoord = String.format("%.0f",point.getPointY().doubleValue());
+			//g.drawString(xCoord + ":" + yCoord, x - 4, y - 6);
 			//g.fillOval(x, y, 10, 10);
 			g.setColor(Color.BLACK);
 			fillCircle(g, x, y, 6);
 			g.setColor(Color.RED);
-			fillCircle(g, x, y, 4);
 			
 			if (point.getNodeType() == NodeType.STEINER) {
 				g.setColor(Color.GREEN);
 			}
-			//g.fillOval(x + 3, y + 3, 5, 5);
+			fillCircle(g, x, y, 4);
 
 
 		}
+		
 	}
 
 	public void drawCircle(Graphics cg, int xCenter, int yCenter, int r) {
-
 		cg.drawOval(xCenter - r, yCenter - r, 2 * r, 2 * r);
 	}
 	
 	public void fillCircle(Graphics cg, int xCenter, int yCenter, int r) {
-
 		cg.fillOval(xCenter - r, yCenter - r, 2 * r, 2 * r);
 	}
+	
+    
+    private void drawMarks(Graphics2D g2) {
+        g2.setColor(Color.GRAY);
+        
+        
+        for (int x = 20; x < getWidth(); x += 20) {
+            for (int y = 20; y < getHeight(); y += 20) {
+                g2.drawLine(0, y, getWidth(), y);
+                g2.drawLine(x, 0, x, getHeight());
+            }
+        }
+    }
 }
