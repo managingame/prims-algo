@@ -342,7 +342,6 @@ public class SteinersAlgorithm {
 				.subtract(BigDecimal.valueOf(4).multiply(a).multiply(c));
 		
 		// find result points
-		System.out.println("D=" + D);
 		
 		BigDecimal x1 = b.negate()
 				.subtract(BigDecimal.valueOf(Math.sqrt(D.doubleValue())))

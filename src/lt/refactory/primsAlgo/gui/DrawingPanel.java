@@ -19,9 +19,16 @@ public class DrawingPanel extends JPanel {
 	 * 
 	 */
 	private static final Font FONTFOREDGEWEIGHT = new Font("Arial", Font.PLAIN, 12);
+	private static int TOOLTIP_DISPLAY_OFFSET = 10;
 	private static final long serialVersionUID = 1L;
 	private PrimsController controller;
+	private TooltipDisplayInfo tooltipDisplayInfo;
 	
+	
+	public void setTooltipDisplayInfo(TooltipDisplayInfo tooltipDisplayInfo) {
+		this.tooltipDisplayInfo = tooltipDisplayInfo;
+	}
+
 	public DrawingPanel(PrimsController controller) {
 		super();
 		this.controller = controller;
@@ -30,27 +37,34 @@ public class DrawingPanel extends JPanel {
 
 	@Override
 	public void paint(Graphics g) {
-		if (g instanceof Graphics2D) {
-			Graphics2D g2d = (Graphics2D) g;
-
-			// for antialising geometric shapes
-			g2d.addRenderingHints(new RenderingHints(
-					RenderingHints.KEY_ANTIALIASING,
-					RenderingHints.VALUE_ANTIALIAS_ON));
-			// for antialiasing text
-			g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-					RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
-			g = g2d;
-		}
 		super.paint(g);
-		Graphics2D g2d = (Graphics2D) g.create();
-		drawMarks(g2d);
+		Graphics2D g2d = (Graphics2D) g;
+		// for antialising geometric shapes
+		g2d.addRenderingHints(new RenderingHints(
+				RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON));
+		// for antialiasing text
+		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
+		drawMarks(g2d);		
+		redrawEdges(g, g2d);
+		redrawNodes(g2d);
+		if (tooltipDisplayInfo != null) {
+			showToolTip(g2d,tooltipDisplayInfo);
+		}
+
+		
+		
+
+	}
+	
+	
+	
+	public void redrawEdges(Graphics g,Graphics2D g2d){
 		g.setColor(Color.BLACK);
 		int middlePointX;
 		int middlePointY;
-		
 		for (Edge edge : controller.getGraph().getEdgeList()) {
 			
 			middlePointX = GuiMathTool.MiddlePoint(edge).getPointX().intValue();
@@ -70,7 +84,9 @@ public class DrawingPanel extends JPanel {
 			//g2d.drawString(GuiMathTool.Weight(edge)+"",middlePointX , middlePointY);
 			g2d.dispose();
 		}
-
+	}
+	
+	public void redrawNodes(Graphics g){
 		for (Node point : controller.getGraph().getNodeList()) {
 			g.setColor(Color.BLACK);
 
@@ -89,10 +105,24 @@ public class DrawingPanel extends JPanel {
 				g.setColor(Color.GREEN);
 			}
 			fillCircle(g, x, y, 4);
-
-
 		}
+	}
+	
+	private void showToolTip(Graphics2D g2d,TooltipDisplayInfo info) {
+		g2d.setColor(Color.WHITE);
 		
+		int x = info.getX() + TOOLTIP_DISPLAY_OFFSET;
+		int y = tooltipDisplayInfo.getY() + TOOLTIP_DISPLAY_OFFSET;
+		
+		String infoToDisplay = String.format("X=%.0f Y=%.0f ", 
+											info.getNode().getPointX(), 
+											info.getNode().getPointY());
+		
+		g2d.fillRect(x, y, 100, 50);
+		g2d.setColor(Color.BLACK);
+		g2d.drawRect(x, y, 100, 50);
+	
+		g2d.drawString(infoToDisplay, x + 20, y + 20);
 	}
 
 	public void drawCircle(Graphics cg, int xCenter, int yCenter, int r) {
@@ -106,7 +136,6 @@ public class DrawingPanel extends JPanel {
     
     private void drawMarks(Graphics2D g2) {
         g2.setColor(Color.GRAY);
-        
         
         for (int x = 20; x < getWidth(); x += 20) {
             for (int y = 20; y < getHeight(); y += 20) {
