@@ -8,13 +8,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,6 +25,7 @@ import javax.swing.LayoutStyle;
 import javax.swing.UIManager;
 
 import lt.refactory.primsAlgo.graph.Graph;
+import lt.refactory.primsAlgo.graph.Node;
 import lt.refactory.primsAlgo.graph.WeightedEdge;
 import lt.refactory.primsAlgo.graph.exception.AddEdgeException;
 import lt.refactory.primsAlgo.graph.exception.AddNodeException;
@@ -132,7 +134,7 @@ public class NewAppFrame extends JFrame {
 
 		graphMouseListener = new GraphMouseListener(graphDrawPanel, controller, null);
         graphDrawPanel.addMouseListener(graphMouseListener);
-        graphDrawPanel.addMouseMotionListener(mouseMotion);
+        graphDrawPanel.addMouseMotionListener(mouseMotionListener);
         
         GroupLayout graphBackgroundPanelLayout = new GroupLayout(graphBackgroundPanel);
         graphBackgroundPanel.setLayout(graphBackgroundPanelLayout);
@@ -254,12 +256,60 @@ public class NewAppFrame extends JFrame {
 		};
 	};
 	
-	
-	private MouseMotionListener mouseMotion = new MouseMotionAdapter() {
-		public void mouseMoved(java.awt.event.MouseEvent e) {
-			//System.out.println("Moved:" + e.getPoint().x + ":" + e.getPoint().y) ;
+	MouseListener onSettingsLabelClick = new MouseAdapter(){
+		public void mouseClicked(java.awt.event.MouseEvent e) {
+			showSettingsDialog();
 		};
 	};
+	
+	MouseMotionListener mouseMotionListener = new MouseAdapter() {
+		public final static int GAP = 15;
+
+		private boolean isNear(Node node, Node newNode) {
+			if (Math.abs(node.getPointX().intValue() - newNode.getPointX().intValue()) <= GAP 
+				&& Math.abs(node.getPointY().intValue()-newNode.getPointY().intValue()) <= GAP ){
+				return true;
+			}
+			return false;
+		}
+		
+		public void mouseMoved(java.awt.event.MouseEvent e) {
+			BigDecimal x = BigDecimal.valueOf(e.getX());
+			BigDecimal y = BigDecimal.valueOf(e.getY());
+			
+			Node newNode = new Node(x, y);
+			Node nearNode = null;
+			
+			TooltipDisplayInfo tooltipDisplayInfo = null;
+
+			for (Node node : controller.getGraph().getNodeList()) {
+				if (isNear(node, newNode)){
+					nearNode = node;
+				}
+			}
+			if (nearNode != null){
+				tooltipDisplayInfo = new TooltipDisplayInfo(nearNode, e.getX(), e.getY());
+				graphDrawPanel.setTooltipDisplayInfo(tooltipDisplayInfo);
+			} else {
+				graphDrawPanel.setTooltipDisplayInfo(null);
+			}
+			graphDrawPanel.repaint();
+
+		};
+	};
+	
+	private JDialog settingsDialog;
+	
+    public void showSettingsDialog() {
+        if (settingsDialog == null) {
+
+            settingsDialog = new SettingsDialog(this);
+            settingsDialog.setLocationRelativeTo(this);
+        }
+        this.showSettingsDialog();
+    }
+
+	
 	public static void main(String args[]) {
 
 		try {
