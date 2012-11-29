@@ -10,6 +10,7 @@ import lt.refactory.primsAlgo.graph.WeightedEdge;
 import lt.refactory.primsAlgo.graph.enums.NodeType;
 import lt.refactory.primsAlgo.graph.exception.AddEdgeException;
 import lt.refactory.primsAlgo.graph.exception.AddNodeException;
+import lt.refactory.primsAlgo.graph.exception.RemoveNodeException;
 import lt.refactory.primsAlgo.service.algorithm.PrimsAlgorithm;
 import lt.refactory.primsAlgo.service.algorithm.SteinersAlgorithm;
 import lt.refactory.primsAlgo.service.algorithm.exceptions.AlgorithmException;
@@ -28,6 +29,9 @@ public class PrimsController {
 		graph.clear();
 	}
 	
+	public void removeNode(Node node) throws RemoveNodeException{
+		graph.removeNode(node);
+	}
 	public void addNode(Node node) throws AddNodeException{
 		graph.addNode(node);
 	}

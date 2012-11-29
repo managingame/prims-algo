@@ -22,6 +22,7 @@ public class FileController {
 	
 	
 	private static final String SPECIALSEPARATOR = ".";
+	private static final String DELIMITER = ";";
 	private PrimsController controller;
 	
 	public FileController(PrimsController controller){
@@ -46,10 +47,10 @@ public class FileController {
 							
 			for (Node node : controller.getGraph().getNodeList()) {
 				if (node.getNodeType() == NodeType.STEINER)
-					dataStream.writeBytes(node.getPointX()+","+node.getPointY()+","+"STEINER"
+					dataStream.writeBytes(node.getPointX()+DELIMITER+node.getPointY()+DELIMITER+"STEINER"
 										 +System.getProperty("line.separator"));
 				else
-					dataStream.writeBytes(node.getPointX()+","+node.getPointY()+","+"NORMAL"
+					dataStream.writeBytes(node.getPointX()+DELIMITER+node.getPointY()+DELIMITER+"NORMAL"
 										 +System.getProperty("line.separator"));
 				
 			}
@@ -71,10 +72,10 @@ public class FileController {
 			
 					
 			for (Edge edge : controller.getGraph().getEdgeList()) {
-				dataStream.writeBytes(edge.getStart().getPointX()+","
-									 +edge.getStart().getPointY()+","
-									 +edge.getEnd().getPointX()+","
-									 +edge.getEnd().getPointY()+","
+				dataStream.writeBytes(edge.getStart().getPointX()+ DELIMITER
+									 +edge.getStart().getPointY()+ DELIMITER
+									 +edge.getEnd().getPointX()+ DELIMITER
+									 +edge.getEnd().getPointY()+DELIMITER
 								+System.getProperty("line.separator"));
 			}	
 			
@@ -121,7 +122,7 @@ public class FileController {
 				for (int i = 0; i < bufferReaders.length; i++){
 					
 					while ((dataLine = bufferReaders[i].readLine()) != null){
-						wholeData = dataLine.split(",");
+						wholeData = dataLine.split(DELIMITER);
 						
 						// If dataLine consists of 3 members its node file else its edge file
 						if (wholeData.length == 3){

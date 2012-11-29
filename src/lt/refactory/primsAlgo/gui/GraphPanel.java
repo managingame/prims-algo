@@ -11,6 +11,7 @@
 package lt.refactory.primsAlgo.gui;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -107,9 +108,9 @@ public class GraphPanel extends javax.swing.JFrame   {
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         
-        openFromFile = new JMenuItem("Skaityti ið failo");
+        openFromFile = new JMenuItem("Skaityti iï¿½ failo");
         
-        exportToFile = new JMenuItem("Iðsaugoti faile");
+        exportToFile = new JMenuItem("Iï¿½saugoti faile");
         
         
         solveOnClickCheckbox = new JCheckBox();
@@ -125,7 +126,7 @@ public class GraphPanel extends javax.swing.JFrame   {
 		});
 
         jPanel1.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
-        graphMouseListener = new GraphMouseListener(this,controller,solveOnClickCheckbox);
+       // graphMouseListener = new GraphMouseListener(this,controller,solveOnClickCheckbox);
         
         jPanel1.setBackground(Color.WHITE);
         jPanel1.addMouseListener(graphMouseListener);
@@ -145,7 +146,7 @@ public class GraphPanel extends javax.swing.JFrame   {
 			}
 		});
 
-        steinerButton.setText("Trumpiausias grafas be tarpiniø taðku");
+        steinerButton.setText("Trumpiausias grafas be tarpiniï¿½ taï¿½ku");
         
         steinerButton.addActionListener(new ActionListener() {
 			
@@ -218,8 +219,7 @@ public class GraphPanel extends javax.swing.JFrame   {
         graphContructionButton.setText("Kazkas");
 
 
-        graphContructionButton.setText("Trumpiausias grafas su vienu taðku");
-        graphContructionButton.addActionListener(new ActionListener() {
+        graphContructionButton.setText("Trumpiausias grafas su vienu taï¿½ku");
 			
 
         
