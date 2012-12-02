@@ -1,5 +1,6 @@
 package lt.refactory.primsAlgo.gui;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -23,7 +24,7 @@ public class DrawingPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private PrimsController controller;
 	private TooltipDisplayInfo tooltipDisplayInfo;
-	
+	private boolean showLoadingScreen = false;
 	
 	public void setTooltipDisplayInfo(TooltipDisplayInfo tooltipDisplayInfo) {
 		this.tooltipDisplayInfo = tooltipDisplayInfo;
@@ -32,7 +33,6 @@ public class DrawingPanel extends JPanel {
 	public DrawingPanel(PrimsController controller) {
 		super();
 		this.controller = controller;
-
 	}
 
 	@Override
@@ -53,13 +53,11 @@ public class DrawingPanel extends JPanel {
 		if (tooltipDisplayInfo != null) {
 			showToolTip(g2d,tooltipDisplayInfo);
 		}
-
-		
-		
-
+		if (showLoadingScreen){
+			showLoadingScreen(g2d);
+		}
+		showLoadingScreen = false;
 	}
-	
-	
 	
 	public void redrawEdges(Graphics g,Graphics2D g2d){
 		g.setColor(Color.BLACK);
@@ -124,6 +122,13 @@ public class DrawingPanel extends JPanel {
 	
 		g2d.drawString(infoToDisplay, x + 20, y + 20);
 	}
+	
+	private void showLoadingScreen(Graphics2D g2d){
+		g2d.setColor(Color.BLACK);
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+                6 * 0.1f));
+        g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
+	}
 
 	public void drawCircle(Graphics cg, int xCenter, int yCenter, int r) {
 		cg.drawOval(xCenter - r, yCenter - r, 2 * r, 2 * r);
@@ -132,7 +137,6 @@ public class DrawingPanel extends JPanel {
 	public void fillCircle(Graphics cg, int xCenter, int yCenter, int r) {
 		cg.fillOval(xCenter - r, yCenter - r, 2 * r, 2 * r);
 	}
-	
     
     private void drawMarks(Graphics2D g2) {
         g2.setColor(Color.GRAY);
@@ -144,4 +148,8 @@ public class DrawingPanel extends JPanel {
             }
         }
     }
+
+	public void setShowLoadingScreen(boolean showLoadingScreen) {
+		this.showLoadingScreen = showLoadingScreen;
+	}
 }

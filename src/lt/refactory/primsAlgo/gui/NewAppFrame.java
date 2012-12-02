@@ -197,7 +197,10 @@ public class NewAppFrame extends JFrame {
     
     private MouseListener onSolveLabelClick = new MouseAdapter() {
     	public void mouseClicked(java.awt.event.MouseEvent e) {
+    		graphDrawPanel.setShowLoadingScreen(false);
+    		graphDrawPanel.repaint();
     		controller.solvePrimsAlgorithm(true);
+    		
 			graphDrawPanel.repaint();
     	};
     	
