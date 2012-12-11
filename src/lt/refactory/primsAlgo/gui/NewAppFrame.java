@@ -10,8 +10,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.URISyntaxException;
+import java.util.InvalidPropertiesFormatException;
+import java.util.Properties;
 
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
@@ -46,35 +51,71 @@ public class NewAppFrame extends JFrame {
 	private PrimsController controller;
 	private FileController fileController;
     private GraphMouseListener graphMouseListener;
+    private Properties primsProperties;
+	
 
 
     public NewAppFrame() {
         super();
+        
+        try {
+			loadPropertiesFromXml();
+		} catch (FileNotFoundException | URISyntaxException e) {
+			e.printStackTrace();
+		}
+        
 		graph = new Graph<WeightedEdge>();
 		controller = new PrimsController(graph);
 		fileController = new FileController(controller);
+		
+		
+		
         initComponents();
         progressBar.setVisible(false);
-
-        setSize(new Dimension(700, 500));
-        setTitle("Primo algoritmas su Ðteinerio taðku");
-
+        if (primsProperties.containsKey("DimensionX") && primsProperties.containsKey("DimensionY")){
+        setSize(new Dimension(Integer.parseInt(primsProperties.getProperty("DimensionX")),
+        				      Integer.parseInt(primsProperties.getProperty("DimensionY"))));
+        }else{
+        	setSize(new Dimension(700, 500));
+        }   
+        setTitle(primsProperties.getProperty("title"));
+      
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    private void initComponents() {
+    private void loadPropertiesFromXml() throws FileNotFoundException, URISyntaxException {	    	
+    	primsProperties = new Properties();
+	
+		InputStream stream = this.getClass().getResourceAsStream("PrimsProperties.xml");	
+		try {
+			primsProperties.loadFromXML(stream);
+		} catch (InvalidPropertiesFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+
+	private void initComponents() {
     	String imgFolder = System.getProperty("user.dir");
     	imgFolder += File.separator + "bin" + File.separator + "img" + File.separator;
     	
         mainPanel = new JPanel();
         controlPanel = new JPanel();
-        solveLabel = new ImageButton("Spresti",imgFolder +"exchange.png",imgFolder + "exchange_hover.png");
-        importLabel = new ImageButton("Importuoti", imgFolder +"above.png", imgFolder +"above_hover.png");
-        settingsLabel = new ImageButton("Nustatymai", imgFolder +"pen.png", imgFolder +"pen_hover.png");
-        exportLabel = new ImageButton("Eksportuoti", imgFolder +"below.png", imgFolder +"below_hover.png");
-        clearLabel = new ImageButton("Valyti", imgFolder +"close.png", imgFolder +"close_hover.png");
+        solveLabel = new ImageButton(primsProperties.getProperty("Solve Button"),imgFolder + primsProperties.getProperty("Solve Button image")
+        									, imgFolder + primsProperties.getProperty("Solve Button image hover"));
+        importLabel = new ImageButton(primsProperties.getProperty("Import Button"), imgFolder + primsProperties.getProperty("Import Button image")
+        									, imgFolder + primsProperties.getProperty("Import Button image hover"));
+        settingsLabel = new ImageButton(primsProperties.getProperty("Settings Button"), imgFolder + primsProperties.getProperty("Settings Button image")
+											, imgFolder + primsProperties.getProperty("Settings Button image hover"));
+        exportLabel = new ImageButton(primsProperties.getProperty("Export Button"), imgFolder + primsProperties.getProperty("Export Button image")
+											, imgFolder + primsProperties.getProperty("Export Button image hover"));
+        clearLabel = new ImageButton(primsProperties.getProperty("Clean Button"), imgFolder + primsProperties.getProperty("Clean Button image")
+				, imgFolder + primsProperties.getProperty("Clean Button image hover"));
         graphBackgroundPanel = new JPanel();
-        graphDrawPanel = new DrawingPanel(controller);
+        graphDrawPanel = new DrawingPanel(controller,primsProperties);
         statusPanel = new JPanel();
         progressBar = new JProgressBar();
 
@@ -88,6 +129,7 @@ public class NewAppFrame extends JFrame {
         clearLabel.addMouseListener(onClearLabelClick);
         importLabel.addMouseListener(onImportLabelClick);
         exportLabel.addMouseListener(onExportLabelClick);
+        settingsLabel.addMouseListener(onSettingsLabelClick);
 
         GroupLayout controlPanelLayout = new GroupLayout(controlPanel);
         controlPanel.setLayout(controlPanelLayout);
@@ -174,7 +216,11 @@ public class NewAppFrame extends JFrame {
                 .addContainerGap())
         );
 
-        
+       // setBackground(Color.decode(primsProperties.getProperty("BackgroundColor")));
+   //    Integer deko = Integer.parseInt(primsProperties.getProperty("BackgroundColor"));
+       
+  // Color sp = new Color(deko);
+      // setBackground(Color.decode(primsProperties.getProperty("BackgroundColor")));
         mainPanel.add(statusPanel);
         setContentPane(mainPanel);
         //setComponent(mainPanel);
@@ -247,9 +293,6 @@ public class NewAppFrame extends JFrame {
 				File file = fileChooser.getSelectedFile();
 				try {
 					fileController.exportToFile(file);
-/*					jProgressBar1.setBackground(Color.RED);
-					jProgressBar1.setStringPainted(true);
-					jProgressBar1.setValue(100);*/
 							
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -260,7 +303,7 @@ public class NewAppFrame extends JFrame {
 	};
 	
 	MouseListener onSettingsLabelClick = new MouseAdapter(){
-		public void mouseClicked(java.awt.event.MouseEvent e) {
+		public void mouseClicked(java.awt.event.MouseEvent e) {			
 			showSettingsDialog();
 		};
 	};
@@ -304,12 +347,14 @@ public class NewAppFrame extends JFrame {
 	private JDialog settingsDialog;
 	
     public void showSettingsDialog() {
+    
         if (settingsDialog == null) {
 
-            settingsDialog = new SettingsDialog(this);
+            settingsDialog = new SettingsDialog(this,primsProperties);
             settingsDialog.setLocationRelativeTo(this);
         }
-        this.showSettingsDialog();
+        //this.showSettingsDialog();
+      
     }
 
 	

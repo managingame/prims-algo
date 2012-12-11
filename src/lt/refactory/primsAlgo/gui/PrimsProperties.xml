@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>Primo algoritmo resursai</comment>
+  <entry key="title">Primo algoritmas su Šteinerio tašku</entry>
+  <entry key="DimensionX">700</entry>
+  <entry key="DimensionY">500</entry>
+  
+  <entry key="BackgroundColor">0000ff</entry>
+  
+  <entry key="ButtonColor">0000ff</entry>
+  
+  <entry key="Solve Button">Spręsti</entry>
+  <entry key="Solve Button image">exchange.png</entry>
+  <entry key="Solve Button image hover">exchange_hover.png</entry>
+  
+  <entry key="Import Button">Importuoti</entry>
+  <entry key="Import Button image">above.png</entry>
+  <entry key="Import Button image hover">above_hover.png</entry>
+  
+  <entry key="Export Button">Eksportuoti</entry>
+  <entry key="Export Button image">below.png</entry>
+  <entry key="Export Button image hover">below_hover.png</entry>
+  
+  <entry key="Settings Button">Nustatymai</entry>
+  <entry key="Settings Button image">pen.png</entry>
+  <entry key="Settings Button image hover">pen_hover.png</entry>
+  
+  <entry key="Clean Button">Valyti</entry>
+  <entry key="Clean Button image">close.png</entry>
+  <entry key="Clean Button image hover">close_hover.png</entry>
+  
+  <entry key="Show edge weights">False</entry>
+</properties>

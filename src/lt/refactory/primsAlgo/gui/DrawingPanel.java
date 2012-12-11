@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.util.Properties;
 
 import javax.swing.JPanel;
 
@@ -19,12 +20,13 @@ public class DrawingPanel extends JPanel {
 	/**
 	 * 
 	 */
-	private static final Font FONTFOREDGEWEIGHT = new Font("Arial", Font.PLAIN, 12);
+	private static final Font FONTFOREDGEWEIGHT = new Font("Arial", Font.BOLD, 12);
 	private static int TOOLTIP_DISPLAY_OFFSET = 10;
 	private static final long serialVersionUID = 1L;
 	private PrimsController controller;
 	private TooltipDisplayInfo tooltipDisplayInfo;
 	private boolean showLoadingScreen = false;
+	private Properties primsProperties;
 	
 	public void setTooltipDisplayInfo(TooltipDisplayInfo tooltipDisplayInfo) {
 		this.tooltipDisplayInfo = tooltipDisplayInfo;
@@ -34,6 +36,14 @@ public class DrawingPanel extends JPanel {
 		super();
 		this.controller = controller;
 	}
+
+	public DrawingPanel(PrimsController controller, Properties primsProperties) {
+		super();
+		this.controller = controller;
+		this.primsProperties = primsProperties;
+	}
+
+	
 
 	@Override
 	public void paint(Graphics g) {
@@ -63,6 +73,8 @@ public class DrawingPanel extends JPanel {
 		g.setColor(Color.BLACK);
 		int middlePointX;
 		int middlePointY;
+		
+		
 		for (Edge edge : controller.getGraph().getEdgeList()) {
 			
 			middlePointX = GuiMathTool.MiddlePoint(edge).getPointX().intValue();
@@ -74,13 +86,13 @@ public class DrawingPanel extends JPanel {
 			int y2 = edge.getEnd().getPointY().intValue();
 			g.drawLine(x1, y1, x2, y2);
 			
-			
-			g2d = (Graphics2D) g.create();
-			g2d.rotate(Math.toRadians(GuiMathTool.Degrees(edge)),middlePointX, middlePointY);
-			//g2d.setFont(FONTFOREDGEWEIGHT);
-		
-			//g2d.drawString(GuiMathTool.Weight(edge)+"",middlePointX , middlePointY);
-			g2d.dispose();
+			if (primsProperties.getProperty("Show edge weights").equals("True")){
+				g2d = (Graphics2D) g.create();
+				g2d.setFont(FONTFOREDGEWEIGHT);
+				g2d.rotate(Math.toRadians(GuiMathTool.Degrees(edge)),middlePointX, middlePointY);
+				g2d.drawString(GuiMathTool.Weight(edge)+"",middlePointX , middlePointY);
+				g2d.dispose();
+			}
 		}
 	}
 	
@@ -108,9 +120,20 @@ public class DrawingPanel extends JPanel {
 	
 	private void showToolTip(Graphics2D g2d,TooltipDisplayInfo info) {
 		g2d.setColor(Color.WHITE);
+		final int TOOLTIP_HEIGHT = 50;
+		final int TOOLTIP_WIDTH = 100;		
 		
 		int x = info.getX() + TOOLTIP_DISPLAY_OFFSET;
-		int y = tooltipDisplayInfo.getY() + TOOLTIP_DISPLAY_OFFSET;
+		int y = info.getY() + TOOLTIP_DISPLAY_OFFSET;
+		
+		
+		if (info.getX() + TOOLTIP_DISPLAY_OFFSET + TOOLTIP_WIDTH > this.getWidth()){
+			x = info.getX() + TOOLTIP_DISPLAY_OFFSET - TOOLTIP_WIDTH;
+		}
+		
+		if (info.getY() + TOOLTIP_DISPLAY_OFFSET + TOOLTIP_HEIGHT > this.getHeight()){
+			y = info.getY() + TOOLTIP_DISPLAY_OFFSET - TOOLTIP_HEIGHT;
+		}
 		
 		String infoToDisplay = String.format("X=%.0f Y=%.0f ", 
 											info.getNode().getPointX(), 
