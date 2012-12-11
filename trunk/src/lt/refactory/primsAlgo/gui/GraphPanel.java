@@ -173,7 +173,6 @@ public class GraphPanel extends javax.swing.JFrame   {
 					try {
 						fileController.readFromFile(files);
 					} catch (IOException | NumberFormatException | AddNodeException | AddEdgeException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					repaint();
@@ -291,7 +290,7 @@ public class GraphPanel extends javax.swing.JFrame   {
         pack();
     }
 
-	
+
 
 	/**
 	 * @param args
