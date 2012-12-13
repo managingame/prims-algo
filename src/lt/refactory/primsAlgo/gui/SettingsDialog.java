@@ -134,7 +134,6 @@ public class SettingsDialog extends JDialog{
 				}
 				try{
 					URL ur = this.getClass().getResource("PrimsProperties.xml");
-					System.out.println(ur.toString());
 					OutputStream outp = new FileOutputStream(new File(ur.toURI()));
 					primsProperties.storeToXML(outp, "Prims properties", "UTF-8");
 				} catch (FileNotFoundException e) {
