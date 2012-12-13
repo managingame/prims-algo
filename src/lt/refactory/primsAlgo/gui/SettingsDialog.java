@@ -49,6 +49,8 @@ public class SettingsDialog extends JDialog{
 	private JTextField textF;
 
 	private JTextField textF2;
+
+	private Color color;
 	
 	public SettingsDialog() {
 		super();
@@ -75,7 +77,7 @@ public class SettingsDialog extends JDialog{
 	private void initComponents() {
 		setSize(600,300);
 		setTitle("Nustatymai");
-	    layout = new GridLayout(6, 4);
+	    layout = new GridLayout(8, 4);
 	    
 	    
 		settingsPanel = new JPanel();
@@ -85,6 +87,7 @@ public class SettingsDialog extends JDialog{
 		
 		JPanel panel = new JPanel();
 		JPanel panel2 = new JPanel();
+		
 		panel2.setLayout(new GridLayout(1,2));
 		
 		JLabel dimensionText = new JLabel("Dimensija ", SwingConstants.LEFT);
@@ -94,7 +97,7 @@ public class SettingsDialog extends JDialog{
 		panel.setLayout(new GridLayout(1,3));
 		
 		
-		AbstractButton colorPickingButton = new JButton("spalva...");			
+		colorPickingButton = new JButton("spalva...");			
 		JLabel dimensijaX = new JLabel("X: ",SwingConstants.RIGHT);
 		JLabel dimensijaY = new JLabel("Y: ", SwingConstants.RIGHT);
 		
@@ -130,20 +133,21 @@ public class SettingsDialog extends JDialog{
 			public void actionPerformed(ActionEvent arg0) {
 				primsProperties.setProperty("DimensionX", textF.getText());
 				primsProperties.setProperty("DimensionY", textF2.getText());
-				if (encodedColorForBackground != null)
+				if (encodedColorForBackground != null){
+					settingsPanel.setBackground(color);
+					colorPickingButton.setBackground(color);
+					colorPickingButton.setForeground(color);
 					primsProperties.setProperty("BackgroundColor", encodedColorForBackground);
+				}
 				try{
 					URL ur = this.getClass().getResource("PrimsProperties.xml");
 					OutputStream outp = new FileOutputStream(new File(ur.toURI()));
 					primsProperties.storeToXML(outp, "Prims properties", "UTF-8");
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (URISyntaxException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -152,16 +156,12 @@ public class SettingsDialog extends JDialog{
 		});
 		
 		colorPickingButton.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				Color color = JColorChooser.showDialog(null, "Choose color", Color.black);
+				color = JColorChooser.showDialog(null, "Choose color", Color.black);
+				
 				String rgb = Integer.toHexString(color.getRGB());
-				
-				encodedColorForBackground = rgb;
-				System.out.println(rgb);			
-				
+				encodedColorForBackground = rgb;			
 			}
 		});
 	

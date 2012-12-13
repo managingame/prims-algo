@@ -79,7 +79,7 @@ public class NewAppFrame extends JFrame {
         	setSize(new Dimension(700, 500));
         }   
         setTitle(primsProperties.getProperty("title"));
-      
+        setBackground(Color.getColor("blue"));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
