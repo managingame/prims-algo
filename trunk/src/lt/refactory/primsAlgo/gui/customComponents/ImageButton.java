@@ -3,6 +3,7 @@ package lt.refactory.primsAlgo.gui.customComponents;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -19,9 +20,10 @@ public class ImageButton extends JLabel{
 	
 	public ImageButton(String title,String imageFile,String hoverFile){
 		super();
-		
-		this.normalImage = new ImageIcon(imageFile);
-		this.hoverImage = new ImageIcon(hoverFile);
+
+		this.normalImage = new ImageIcon(getClass().getResource(imageFile));
+				
+		this.hoverImage = new ImageIcon(getClass().getResource(hoverFile));
 		this.setText(title);
 		this.setIcon(normalImage);
 		this.addMouseListener(onHoverListener);
