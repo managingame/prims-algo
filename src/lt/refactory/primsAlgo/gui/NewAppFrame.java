@@ -99,8 +99,7 @@ public class NewAppFrame extends JFrame {
 
 
 	private void initComponents() {
-    	String imgFolder = System.getProperty("user.dir");
-    	imgFolder += File.separator + "bin" + File.separator + "img" + File.separator;
+    	String imgFolder = "/img/";
     	
         mainPanel = new JPanel();
         controlPanel = new JPanel();
