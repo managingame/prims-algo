@@ -351,6 +351,8 @@ public class NewAppFrame extends JFrame {
 
             settingsDialog = new SettingsDialog(this,primsProperties);
             settingsDialog.setLocationRelativeTo(this);
+        }else{
+        	settingsDialog.setVisible(true);
         }
         //this.showSettingsDialog();
       

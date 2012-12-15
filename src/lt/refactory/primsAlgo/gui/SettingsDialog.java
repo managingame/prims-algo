@@ -78,7 +78,7 @@ public class SettingsDialog extends JDialog{
 		settingsPanel = new JPanel();
 		settingsPanel.setLayout(layout);
 		
-		applyButton = new  JButton("Apply changes");
+		applyButton = new  JButton("Patvirtinti naujus nustatymus");
 		
 		JPanel panel = new JPanel();
 		JPanel panel2 = new JPanel();
@@ -98,10 +98,9 @@ public class SettingsDialog extends JDialog{
 		
 		panel.add(dimensionText);
 		panel.add(new JSeparator(SwingConstants.VERTICAL));
-		panel.add(dimensionXLabel);
-		panel.add(dimensionYLabel);
-		
+		panel.add(dimensionXLabel);	
 		panel.add(textFieldForXCordinate);
+		panel.add(dimensionYLabel);
 		panel.add(textFieldForYCordinate);
 		
 		panel2.setLayout(new GridLayout(1, 3));
