@@ -28,7 +28,6 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.LayoutStyle;
 import javax.swing.UIManager;
-
 import lt.refactory.primsAlgo.graph.Graph;
 import lt.refactory.primsAlgo.graph.Node;
 import lt.refactory.primsAlgo.graph.WeightedEdge;
@@ -52,7 +51,6 @@ public class NewAppFrame extends JFrame {
 	private FileController fileController;
     private GraphMouseListener graphMouseListener;
     private Properties primsProperties;
-	
 
 
     public NewAppFrame() {
@@ -215,11 +213,30 @@ public class NewAppFrame extends JFrame {
                 .addContainerGap())
         );
 
-       // setBackground(Color.decode(primsProperties.getProperty("BackgroundColor")));
-   //    Integer deko = Integer.parseInt(primsProperties.getProperty("BackgroundColor"));
-       
-  // Color sp = new Color(deko);
-      // setBackground(Color.decode(primsProperties.getProperty("BackgroundColor")));
+ 
+    
+     String colorString = primsProperties.getProperty("BackgroundColor");
+     colorString = colorString.substring(2, colorString.length());
+     Color colorForBackgrounds = Color.decode("0x"+colorString);
+     
+     String buttonColorString = primsProperties.getProperty("ButtonColor");
+     System.out.println(buttonColorString);
+     buttonColorString = buttonColorString.substring(2, buttonColorString.length());
+     Color colorForButtons = Color.decode("0x"+buttonColorString);
+      
+     
+     importLabel.setForeground(colorForButtons);
+     clearLabel.setForeground(colorForButtons);
+     exportLabel.setForeground(colorForButtons);
+     solveLabel.setForeground(colorForButtons);
+     settingsLabel.setForeground(colorForButtons);
+     
+  
+      setBackground(colorForBackgrounds);
+      controlPanel.setBackground(colorForBackgrounds);
+      graphBackgroundPanel.setBackground(colorForBackgrounds);
+      mainPanel.setBackground(colorForBackgrounds);
+      
         mainPanel.add(statusPanel);
         setContentPane(mainPanel);
         //setComponent(mainPanel);

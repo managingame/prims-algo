@@ -38,6 +38,8 @@ public class SettingsDialog extends JDialog{
 	
 	private String encodedColorForBackground ;
 	
+	private String encodedColorForButtons;
+	
 	private GridLayout layout;
 
 	private Properties primsProperties;
@@ -51,6 +53,8 @@ public class SettingsDialog extends JDialog{
 	private JLabel dimensionXLabel;
 
 	private JLabel dimensionYLabel;
+
+	private JButton buttonColorPickingButton;
 	
 	public SettingsDialog() {
 		super();
@@ -82,14 +86,18 @@ public class SettingsDialog extends JDialog{
 		
 		JPanel panel = new JPanel();
 		JPanel panel2 = new JPanel();
+		JPanel panel3 = new JPanel();
 		
-		panel.setLayout(new GridLayout(1,3));
-		panel2.setLayout(new GridLayout(1,2));
+		panel.setLayout(new GridLayout(1,5));
+		
 		
 		JLabel dimensionText = new JLabel("Dimensija ", SwingConstants.LEFT);
 		dimensionText.setBounds(50, 150, 10, 50);
 				
-		colorPickingButton = new JButton("spalva...");			
+		colorPickingButton = new JButton("spalva...");
+		buttonColorPickingButton = new JButton("Mygtukų teksto spalva");
+		
+
 		dimensionXLabel = new JLabel("X: ",SwingConstants.RIGHT);
 		dimensionYLabel = new JLabel("Y: ", SwingConstants.RIGHT);
 		
@@ -106,14 +114,23 @@ public class SettingsDialog extends JDialog{
 		panel2.setLayout(new GridLayout(1, 3));
 		panel2.add(new JLabel("Background spalva", SwingConstants.LEFT));	
 		panel2.add(new JSeparator(SwingConstants.VERTICAL));
-		panel2.add(new JLabel());panel2.add(new JLabel(" "));panel2.add(new JLabel());
+		panel2.add(new JLabel());
 		panel2.add(colorPickingButton);
+		
+		panel3.setLayout(new GridLayout(1,3));
+		panel3.add(new JLabel("Mygtukų teksto spalvos", SwingConstants.LEFT));
+		panel3.add(new JSeparator(SwingConstants.VERTICAL));
+		panel3.add(new JLabel());
+		panel3.add(buttonColorPickingButton);
+		
+		
 		
 		textFieldForXCordinate.setText(primsProperties.getProperty("DimensionX"));
 		textFieldForYCordinate.setText(primsProperties.getProperty("DimensionY"));
 		
 		settingsPanel.add(panel);
 		settingsPanel.add(panel2);
+		settingsPanel.add(panel3);
 		settingsPanel.add(applyButton);
 		add(settingsPanel);
 		
@@ -126,10 +143,9 @@ public class SettingsDialog extends JDialog{
 				primsProperties.setProperty("DimensionX", textFieldForXCordinate.getText());
 				primsProperties.setProperty("DimensionY", textFieldForYCordinate.getText());
 				if (encodedColorForBackground != null){
-					settingsPanel.setBackground(color);
-					colorPickingButton.setBackground(color);
-					colorPickingButton.setForeground(color);
+					settingsPanel.setBackground(color);					
 					primsProperties.setProperty("BackgroundColor", encodedColorForBackground);
+					primsProperties.setProperty("ButtonColor", encodedColorForButtons);
 				}
 				try{
 					URL ur = this.getClass().getResource("PrimsProperties.xml");
@@ -153,6 +169,16 @@ public class SettingsDialog extends JDialog{
 				
 				String rgb = Integer.toHexString(color.getRGB());
 				encodedColorForBackground = rgb;			
+			}
+		});
+		
+		buttonColorPickingButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Color color = JColorChooser.showDialog(null, "Pasirinkite spalvą", Color.black);
+				
+				String rgb = Integer.toHexString(color.getRGB());
+				encodedColorForButtons = rgb;			
 			}
 		});
 			
