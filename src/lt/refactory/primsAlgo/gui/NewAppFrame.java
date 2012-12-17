@@ -10,11 +10,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
@@ -83,8 +86,10 @@ public class NewAppFrame extends JFrame {
 
     private void loadPropertiesFromXml() throws FileNotFoundException, URISyntaxException {	    	
     	primsProperties = new Properties();
-	
-		InputStream stream = this.getClass().getResourceAsStream("PrimsProperties.xml");	
+    	URL uri =  this.getClass().getResource("PrimsProperties.xml");
+    	
+    	InputStream stream = new FileInputStream(new File(uri.toURI()));
+		//InputStream stream = this.getClass().getResourceAsStream("PrimsProperties.xml");	
 		try {
 			primsProperties.loadFromXML(stream);
 		} catch (InvalidPropertiesFormatException e) {
