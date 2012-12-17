@@ -100,13 +100,15 @@ public class PrimsController {
 					WeightedEdge edgeThroughTriangles = SteinersAlgorithm.getEdgeThroughTriangles(triangle, equilateralTriangle);
 					Node steinersPoint = SteinersAlgorithm.getSteinersPoint(edgeThroughTriangles, circumscribedCircle);
 					
-					// Calculate how much graph is shorter than initial graph
-					Graph<WeightedEdge> changedGraph = SteinersAlgorithm.changeGraphEdges(smallestTreeFull, leave, nearEdge, steinersPoint);
-					BigDecimal lengthDifference = SteinersAlgorithm.calculateGraphLengthsDifference(smallestTreeFull, changedGraph);
-					
-					if (lengthDifference.compareTo(biggestDifference) == 1) {
-						smallestTreeWithSteinersPoint = new Graph<WeightedEdge>(changedGraph);
-						biggestDifference = lengthDifference;
+					if (steinersPoint != null) {
+						// Calculate how much graph is shorter than initial graph
+						Graph<WeightedEdge> changedGraph = SteinersAlgorithm.changeGraphEdges(smallestTreeFull, leave, nearEdge, steinersPoint);
+						BigDecimal lengthDifference = SteinersAlgorithm.calculateGraphLengthsDifference(smallestTreeFull, changedGraph);
+						
+						if (lengthDifference.compareTo(biggestDifference) == 1) {
+							smallestTreeWithSteinersPoint = new Graph<WeightedEdge>(changedGraph);
+							biggestDifference = lengthDifference;
+						}
 					}
 				}
 				smallestTree.removeEdge(leave);
