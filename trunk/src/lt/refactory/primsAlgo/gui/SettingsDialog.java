@@ -224,9 +224,10 @@ public class SettingsDialog extends JDialog{
 				
 				System.out.println(primsProperties.getProperty("Settings.ShowEdgeWeights.Value"));
 				
-				if (encodedColorForBackground != null){
-					settingsPanel.setBackground(color);					
+				if (encodedColorForBackground != null){			
 					primsProperties.setProperty("BackgroundColor", encodedColorForBackground);
+				}
+				if (encodedColorForButtons != null){
 					primsProperties.setProperty("ButtonColor", encodedColorForButtons);
 				}
 				try{
