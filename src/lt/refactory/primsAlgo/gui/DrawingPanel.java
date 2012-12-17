@@ -86,7 +86,7 @@ public class DrawingPanel extends JPanel {
 			int y2 = edge.getEnd().getPointY().intValue();
 			g.drawLine(x1, y1, x2, y2);
 			
-			if (primsProperties.getProperty("Show edge weights").equals("True")){
+			if (primsProperties.getProperty("Settings.ShowEdgeWeights.Value").equals("True")){
 				g2d = (Graphics2D) g.create();
 				g2d.setFont(FONTFOREDGEWEIGHT);
 				g2d.rotate(Math.toRadians(GuiMathTool.Degrees(edge)),middlePointX, middlePointY);
@@ -174,5 +174,11 @@ public class DrawingPanel extends JPanel {
 
 	public void setShowLoadingScreen(boolean showLoadingScreen) {
 		this.showLoadingScreen = showLoadingScreen;
+	}
+
+	public void changedProperties(Properties primsProperties2) {
+		this.primsProperties = primsProperties2;
+		System.out.println(primsProperties.getProperty("Settings.ShowEdgeWeights.Value"));
+		
 	}
 }
