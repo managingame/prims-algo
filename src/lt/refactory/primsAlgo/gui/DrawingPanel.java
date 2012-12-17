@@ -103,8 +103,8 @@ public class DrawingPanel extends JPanel {
 			int x = point.getPointX().intValue();
 			int y = point.getPointY().intValue();
 			
-			String xCoord = String.format("%.0f",point.getPointX().doubleValue());
-			String yCoord = String.format("%.0f",point.getPointY().doubleValue());
+			//String xCoord = String.format("%.0f",point.getPointX().doubleValue());
+			//String yCoord = String.format("%.0f",point.getPointY().doubleValue());
 			//g.drawString(xCoord + ":" + yCoord, x - 4, y - 6);
 			//g.fillOval(x, y, 10, 10);
 			g.setColor(Color.BLACK);
