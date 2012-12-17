@@ -340,11 +340,14 @@ public class SteinersAlgorithm {
 		// discriminant D = b * b - 4 * a * c
 		BigDecimal D = b.multiply(b)
 				.subtract(BigDecimal.valueOf(4).multiply(a).multiply(c));
+				
+		if (D.doubleValue() < 0){
+			return null;
+		}
 		
 		// find result points
-		
 		BigDecimal x1 = b.negate()
-				.subtract(BigDecimal.valueOf(Math.sqrt(D.doubleValue())))
+				.subtract(BigDecimal.valueOf(Math.sqrt(D.doubleValue())), new MathContext(DIVISION_PRECISION, ROUNDING_MODE))
 				.divide(a.multiply(BigDecimal.valueOf(2)), DIVISION_PRECISION, ROUNDING_MODE);
 		
 		BigDecimal x2 = b.negate()
