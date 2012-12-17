@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.Properties;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -56,12 +57,23 @@ public class SettingsDialog extends JDialog{
 
 	private JButton buttonColorPickingButton;
 	
+	private JCheckBox checkRepaint;
+	
+	private JCheckBox showTooltips;
+	
+	private JCheckBox showEdgesWeight;
+	
+	private JCheckBox showNodeCordinates;
+
+	private NewAppFrame owner;
+	
 	public SettingsDialog() {
 		super();
 	}
 
-	public SettingsDialog(JFrame owner, Properties primsProperties) {
+	public SettingsDialog(NewAppFrame owner, Properties primsProperties) {
 		super(owner);
+		this.owner = owner;
 		this.primsProperties = primsProperties;	
 		initComponents();
 		this.setVisible(true);
@@ -76,17 +88,27 @@ public class SettingsDialog extends JDialog{
 
 	private void initComponents() {
 		setSize(600,300);
-		setTitle("Nustatymai");
-	    layout = new GridLayout(8, 4);
+		setTitle(primsProperties.getProperty("Settings.Title"));
+	    layout = new GridLayout(10, 5);
 	        
 		settingsPanel = new JPanel();
 		settingsPanel.setLayout(layout);
 		
-		applyButton = new  JButton("Patvirtinti naujus nustatymus");
+		applyButton = new  JButton(primsProperties.getProperty("Settings.ApplyButton"));
+		checkRepaint = new JCheckBox("Taip");
+		showTooltips = new JCheckBox("Taip");
+		showNodeCordinates = new JCheckBox("Taip");
+		showEdgesWeight = new JCheckBox("Taip");
+		
+		
 		
 		JPanel panel = new JPanel();
 		JPanel panel2 = new JPanel();
 		JPanel panel3 = new JPanel();
+		JPanel panel4 = new JPanel();
+		JPanel panel5 = new JPanel();
+		JPanel panel6 = new JPanel();
+		JPanel panel7 = new JPanel();
 		
 		panel.setLayout(new GridLayout(1,5));
 		
@@ -94,8 +116,8 @@ public class SettingsDialog extends JDialog{
 		JLabel dimensionText = new JLabel("Dimensija ", SwingConstants.LEFT);
 		dimensionText.setBounds(50, 150, 10, 50);
 				
-		colorPickingButton = new JButton("spalva...");
-		buttonColorPickingButton = new JButton("Mygtukų teksto spalva");
+		colorPickingButton = new JButton(primsProperties.getProperty("Settings.ButtonForBackground"));
+		buttonColorPickingButton = new JButton(primsProperties.getProperty("Settings.ButtonForButtonsForeground"));
 		
 
 		dimensionXLabel = new JLabel("X: ",SwingConstants.RIGHT);
@@ -111,7 +133,7 @@ public class SettingsDialog extends JDialog{
 		panel.add(dimensionYLabel);
 		panel.add(textFieldForYCordinate);
 		
-		panel2.setLayout(new GridLayout(1, 3));
+		panel2.setLayout(new GridLayout(1, 2));
 		panel2.add(new JLabel("Background spalva", SwingConstants.LEFT));	
 		panel2.add(new JSeparator(SwingConstants.VERTICAL));
 		panel2.add(new JLabel());
@@ -123,6 +145,31 @@ public class SettingsDialog extends JDialog{
 		panel3.add(new JLabel());
 		panel3.add(buttonColorPickingButton);
 		
+		panel4.setLayout(new GridLayout(1,4));
+		panel4.add(new JLabel(primsProperties.getProperty("Settings.Label.Repaint"), SwingConstants.LEFT));
+		panel4.add(new JSeparator(SwingConstants.VERTICAL));
+		panel4.add(checkRepaint);
+		
+		panel5.setLayout(new GridLayout(1,4));
+		panel5.add(new JLabel(primsProperties.getProperty("Settings.Label.ShowTooltip"), SwingConstants.LEFT));
+		panel5.add(new JSeparator(SwingConstants.VERTICAL));
+		panel5.add(showTooltips);
+		
+		panel6.setLayout(new GridLayout(1,4));
+		panel6.add(new JLabel(primsProperties.getProperty("Settings.Label.ShowEdgeWeights"), SwingConstants.LEFT));
+		panel6.add(new JSeparator(SwingConstants.VERTICAL));
+		panel6.add(showEdgesWeight);
+		
+		panel7.setLayout(new GridLayout(1,4));
+		panel7.add(new JLabel(primsProperties.getProperty("Settings.Label.ShowNodeCoordinates"), SwingConstants.LEFT));
+		panel7.add(new JSeparator(SwingConstants.VERTICAL));
+		panel7.add(showNodeCordinates);
+		
+		
+		
+		
+		
+		
 		
 		
 		textFieldForXCordinate.setText(primsProperties.getProperty("DimensionX"));
@@ -131,6 +178,12 @@ public class SettingsDialog extends JDialog{
 		settingsPanel.add(panel);
 		settingsPanel.add(panel2);
 		settingsPanel.add(panel3);
+		settingsPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+		settingsPanel.add(panel4);
+		settingsPanel.add(panel5);
+		settingsPanel.add(panel6);
+		settingsPanel.add(panel7);
+		
 		settingsPanel.add(applyButton);
 		add(settingsPanel);
 		
@@ -142,6 +195,35 @@ public class SettingsDialog extends JDialog{
 			public void actionPerformed(ActionEvent arg0) {
 				primsProperties.setProperty("DimensionX", textFieldForXCordinate.getText());
 				primsProperties.setProperty("DimensionY", textFieldForYCordinate.getText());
+				
+				
+				
+				if (checkRepaint.isSelected()){
+					primsProperties.setProperty("Settings.Repaint.Value","True");
+				}else{
+					primsProperties.setProperty("Settings.Repaint.Value","False");
+				}
+				
+				if (showEdgesWeight.isSelected()){
+					primsProperties.setProperty("Settings.ShowEdgeWeights.Value","True");
+				}else{
+					primsProperties.setProperty("Settings.ShowEdgeWeights.Value","False");
+				}
+				
+				if (showNodeCordinates.isSelected()){
+					primsProperties.setProperty("Settings.ShowNodeCoordinates.Value","True");
+				}else{
+					primsProperties.setProperty("Settings.ShowNodeCoordinates.Value","False");
+				}
+				
+				if (showTooltips.isSelected()){
+					primsProperties.setProperty("Settings.ShowTooltip.Value","True");
+				}else{
+					primsProperties.setProperty("Settings.ShowTooltip.Value","False");
+				}
+				
+				System.out.println(primsProperties.getProperty("Settings.ShowEdgeWeights.Value"));
+				
 				if (encodedColorForBackground != null){
 					settingsPanel.setBackground(color);					
 					primsProperties.setProperty("BackgroundColor", encodedColorForBackground);
@@ -158,7 +240,9 @@ public class SettingsDialog extends JDialog{
 				} catch (URISyntaxException e) {
 					e.printStackTrace();
 				}
-						
+				
+				owner.changeProperties(primsProperties);
+				
 			}
 		});
 		

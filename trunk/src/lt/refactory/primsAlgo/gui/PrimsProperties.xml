@@ -31,4 +31,24 @@
   <entry key="Clean Button image hover">close_hover.png</entry>
   
   <entry key="Show edge weights">False</entry>
+  
+  <entry key="Settings.Title">Nustatymai</entry>
+  <entry key="Settings.ButtonForBackground">Fono spalva..</entry>
+  <entry key="Settings.ButtonForButtonsForeground">Mygtukų teksto spalva..</entry>
+  <entry key="Settings.ApplyButton">Patvirtinti naujus nustatymus</entry>
+  
+  <entry key="Settings.Label.Repaint">Ar perpiešti</entry>
+  <entry key="Settings.Repaint.Value">False</entry>
+  
+  <entry key="Settings.Label.ShowTooltip">Ar rodyti koordinates iššokančiame langelyje</entry>
+  <entry key="Settings.ShowTooltip.Value">False</entry>
+  
+  <entry key="Settings.Label.ShowEdgeWeights">Ar rodyti briaunų svorius</entry>
+  <entry key="Settings.ShowEdgeWeights.Value">False</entry>
+  
+  <entry key="Settings.Label.ShowNodeCoordinates">Ar rodyti taško kordinates</entry>
+  <entry key="Settings.ShowNodeCoordinates.Value">False</entry>
+  
+  
+  
 </properties>
