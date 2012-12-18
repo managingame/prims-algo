@@ -164,14 +164,7 @@ public class SettingsDialog extends JDialog{
 		panel7.add(new JLabel(primsProperties.getProperty("Settings.Label.ShowNodeCoordinates"), SwingConstants.LEFT));
 		panel7.add(new JSeparator(SwingConstants.VERTICAL));
 		panel7.add(showNodeCordinates);
-		
-		
-		
-		
-		
-		
-		
-		
+						
 		textFieldForXCordinate.setText(primsProperties.getProperty("DimensionX"));
 		textFieldForYCordinate.setText(primsProperties.getProperty("DimensionY"));
 		
@@ -188,6 +181,8 @@ public class SettingsDialog extends JDialog{
 		add(settingsPanel);
 		
 		settingsPanel.setVisible(true);
+		
+		showStatus();
 			
 		applyButton.addActionListener(new ActionListener() {
 			
@@ -260,13 +255,24 @@ public class SettingsDialog extends JDialog{
 		buttonColorPickingButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Color color = JColorChooser.showDialog(null, "Pasirinkite spalvą", Color.black);
+				Color color = JColorChooser.showDialog(null, "Pasirinkite spalvą", Color.WHITE);
 				
 				String rgb = Integer.toHexString(color.getRGB());
 				encodedColorForButtons = rgb;			
 			}
 		});
 			
+	}
+
+	private void showStatus() {
+		if (primsProperties.getProperty("Settings.ShowNodeCoordinates.Value").equals("True"))
+			showNodeCordinates.setSelected(true);
+		if (primsProperties.getProperty("Settings.ShowTooltip.Value").equals("True"))
+			showTooltips.setSelected(true);
+		if (primsProperties.getProperty("Settings.Repaint.Value").equals("True"))
+			checkRepaint.setSelected(true);
+		if (primsProperties.getProperty("Settings.ShowEdgeWeights.Value").equals("True"))
+			showEdgesWeight.setSelected(true);
 	}
 
 	public SettingsDialog(Window owner) {

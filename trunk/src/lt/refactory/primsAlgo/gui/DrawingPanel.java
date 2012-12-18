@@ -60,7 +60,7 @@ public class DrawingPanel extends JPanel {
 		drawMarks(g2d);		
 		redrawEdges(g, g2d);
 		redrawNodes(g2d);
-		if (tooltipDisplayInfo != null) {
+		if (tooltipDisplayInfo != null && primsProperties.getProperty("Settings.ShowTooltip.Value").equals("True")) {
 			showToolTip(g2d,tooltipDisplayInfo);
 		}
 		if (showLoadingScreen){
