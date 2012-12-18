@@ -67,6 +67,8 @@ public class DrawingPanel extends JPanel {
 			showLoadingScreen(g2d);
 		}
 		showLoadingScreen = false;
+		if (primsProperties.getProperty("Settings.Repaint.Value").equals("True"))
+			controller.solvePrimsAlgorithm(true);
 	}
 	
 	public void redrawEdges(Graphics g,Graphics2D g2d){
@@ -102,10 +104,11 @@ public class DrawingPanel extends JPanel {
 
 			int x = point.getPointX().intValue();
 			int y = point.getPointY().intValue();
-			
-			//String xCoord = String.format("%.0f",point.getPointX().doubleValue());
-			//String yCoord = String.format("%.0f",point.getPointY().doubleValue());
-			//g.drawString(xCoord + ":" + yCoord, x - 4, y - 6);
+		if (primsProperties.getProperty("Settings.ShowNodeCoordinates.Value").equals("True")){	
+			String xCoord = String.format("%.0f",point.getPointX().doubleValue());
+			String yCoord = String.format("%.0f",point.getPointY().doubleValue());
+			g.drawString(xCoord + ":" + yCoord, x - 4, y - 6);
+		}
 			//g.fillOval(x, y, 10, 10);
 			g.setColor(Color.BLACK);
 			fillCircle(g, x, y, 6);
